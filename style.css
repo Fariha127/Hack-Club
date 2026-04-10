@@ -3,3 +3,39 @@ body {
     color: rgb(7, 110, 7);
     padding: 20px;
 }
+
+nav {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 12px;
+    opacity: 0;
+    transform: translateX(-40px);
+    animation: navSlideIn 700ms ease-out forwards;
+}
+
+nav a {
+    color: rgb(7, 110, 7);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 4px;
+}
+
+nav a:hover {
+    color: white;
+    background-color: rgb(7, 110, 7);
+    text-decoration: none;
+}
+
+@keyframes navSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
