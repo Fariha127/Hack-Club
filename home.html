@@ -3,18 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <title>Home | HACK KUET</title>
 </head>
 <body>
-    <h1>HACK - Hardware Acceleration Club of KUET</h1>
+    <header class="site-header">
+        <div class="container site-header-inner">
+            <a class="brand" href="home.html"><span></span>HACK - Hardware Acceleration Club of KUET</a>
+            <nav>
+                <a class="active" href="home.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a href="project.html">Projects</a>
+                <a href="blogs.html">Blogs</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </div>
+    </header>
 
-    <nav>
-        <a href="home.html">Home</a>
-        <a href="about.html">About Us</a>
-        <a href="project.html">Projects</a>
-        <a href="blogs.html">Blogs</a>
-        <a href="contact.html">Contact</a>
-    </nav>
+    <main class="container">
+        <section class="hero">
+            <p class="eyebrow">Hardware Acceleration Club</p>
+            <h1>Designing, building, and accelerating hardware innovation at KUET.</h1>
+            <p class="lead">HACK is a collaborative engineering community where students turn ambitious ideas into tested systems through hands-on learning, project sprints, and team mentorship.</p>
+        </section>
+
+        <section class="section">
+            <div class="grid three">
+                <article class="card">
+                    <h3>Learn by Building</h3>
+                    <p>Work directly with microcontrollers, sensors, control systems, and PCB workflows from week one.</p>
+                </article>
+                <article class="card">
+                    <h3>Compete and Collaborate</h3>
+                    <p>Join multidisciplinary teams for robotics and IoT competitions across campus and beyond.</p>
+                </article>
+                <article class="card">
+                    <h3>Grow with Mentorship</h3>
+                    <p>Senior members provide guidance on architecture, debugging strategy, and project planning.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="grid two">
+                <article class="card">
+                    <span class="meta">What We Run</span>
+                    <h3>Weekly Workshop Tracks</h3>
+                    <p>Structured sessions covering embedded C, sensor interfacing, actuator control, and prototype validation.</p>
+                    <div class="chips">
+                        <span class="chip">Embedded Basics</span>
+                        <span class="chip">Rapid Prototyping</span>
+                        <span class="chip">System Testing</span>
+                    </div>
+                </article>
+                <article class="card">
+                    <span class="meta">Get Started</span>
+                    <h3>Join the Next Build Cycle</h3>
+                    <p>Explore current projects, attend an open session, and become part of a team building real hardware solutions.</p>
+                    <div class="chips">
+                        <span class="chip">Open Session</span>
+                        <span class="chip">Team Matching</span>
+                        <span class="chip">Demo Day</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">HACK KUET | From concept to circuit.</div>
+    </footer>
 </body>
 </html>

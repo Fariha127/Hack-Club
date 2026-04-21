@@ -46,9 +46,9 @@ body::before {
     position: sticky;
     top: 0;
     z-index: 20;
-    background: rgba(3, 8, 6, 0.72);
+    background: linear-gradient(180deg, rgba(3, 8, 6, 0.88), rgba(3, 8, 6, 0.52));
     backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(110, 255, 164, 0.2);
+    border-bottom: 1px solid rgba(110, 255, 164, 0.16);
 }
 
 .site-header-inner {
@@ -80,28 +80,54 @@ body::before {
 }
 
 nav {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 6px;
     align-items: center;
+    padding: 6px;
+    border-radius: 999px;
+    background: linear-gradient(130deg, rgba(10, 34, 21, 0.88), rgba(3, 18, 10, 0.82));
+    border: 1px solid rgba(110, 255, 164, 0.24);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 10px 28px rgba(0, 0, 0, 0.32);
     animation: navSlideIn 650ms ease-out;
+}
+
+nav::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(110deg, rgba(110, 255, 164, 0.26), transparent 40%, rgba(110, 255, 164, 0.22));
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    padding: 1px;
 }
 
 nav a {
     color: var(--muted);
     text-decoration: none;
     font-weight: 600;
-    padding: 8px 14px;
+    letter-spacing: 0.01em;
+    padding: 8px 16px;
     border-radius: 999px;
     border: 1px solid transparent;
-    transition: 220ms ease;
+    transition: color 180ms ease, background 220ms ease, border-color 220ms ease, transform 180ms ease;
 }
 
-nav a:hover,
-nav a.active {
+nav a:hover {
     color: var(--text);
-    border-color: rgba(110, 255, 164, 0.35);
-    background: rgba(110, 255, 164, 0.14);
+    border-color: rgba(110, 255, 164, 0.38);
+    background: rgba(110, 255, 164, 0.12);
+    transform: translateY(-1px);
+}
+
+nav a.active {
+    color: #063221;
+    border-color: rgba(110, 255, 164, 0.65);
+    background: linear-gradient(115deg, #8cffbc, #47e08f);
+    box-shadow: 0 6px 16px rgba(36, 209, 127, 0.3);
 }
 
 .hero {
@@ -123,7 +149,7 @@ h1,
 h2,
 h3 {
     margin: 0;
-    font-family: "DM Serif Display", Georgia, serif;
+    font-family: Georgia, serif;
     letter-spacing: 0.01em;
 }
 
@@ -293,6 +319,12 @@ textarea {
         padding: 14px 0;
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    nav {
+        width: 100%;
+        border-radius: 16px;
+        justify-content: center;
     }
 
     .hero {
