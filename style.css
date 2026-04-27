@@ -1,4 +1,30 @@
 :root {
+    --bg-1: #f8fffb;
+    --bg-2: #ecf9f0;
+    --panel: rgba(255, 255, 255, 0.9);
+    --panel-border: rgba(52, 140, 89, 0.22);
+    --text: #17351f;
+    --muted: #487658;
+    --accent: #23944f;
+    --accent-2: #5eb87c;
+    --shadow: 0 18px 42px rgba(26, 74, 42, 0.14);
+    --bg-glow-1: rgba(92, 196, 130, 0.24);
+    --bg-glow-2: rgba(54, 157, 93, 0.15);
+    --grid-line: rgba(42, 128, 76, 0.08);
+    --header-bg: rgba(248, 255, 251, 0.88);
+    --header-border: rgba(52, 140, 89, 0.2);
+    --chip-border: rgba(52, 140, 89, 0.34);
+    --timeline-border: rgba(52, 140, 89, 0.34);
+    --input-border: rgba(52, 140, 89, 0.3);
+    --input-bg: rgba(255, 255, 255, 0.96);
+    --nav-hover-border: rgba(52, 140, 89, 0.48);
+    --footer-border: rgba(52, 140, 89, 0.26);
+    --btn-text: #ffffff;
+    --focus-ring: rgba(35, 148, 79, 0.28);
+    --brand-glow: rgba(35, 148, 79, 0.5);
+}
+
+body.dark {
     --bg-1: #030806;
     --bg-2: #08170f;
     --panel: rgba(10, 33, 20, 0.86);
@@ -8,6 +34,20 @@
     --accent: #6effa4;
     --accent-2: #1dab68;
     --shadow: 0 20px 50px rgba(0, 0, 0, 0.38);
+    --bg-glow-1: rgba(50, 150, 95, 0.25);
+    --bg-glow-2: rgba(36, 209, 127, 0.18);
+    --grid-line: rgba(110, 255, 164, 0.04);
+    --header-bg: rgba(3, 8, 6, 0.82);
+    --header-border: rgba(110, 255, 164, 0.2);
+    --chip-border: rgba(110, 255, 164, 0.35);
+    --timeline-border: rgba(110, 255, 164, 0.35);
+    --input-border: rgba(110, 255, 164, 0.3);
+    --input-bg: rgba(2, 11, 7, 0.7);
+    --nav-hover-border: rgba(110, 255, 164, 0.45);
+    --footer-border: rgba(110, 255, 164, 0.25);
+    --btn-text: #022f1a;
+    --focus-ring: rgba(110, 255, 164, 0.32);
+    --brand-glow: rgba(4, 154, 59, 0.9);
 }
 
 * {
@@ -20,10 +60,11 @@ body {
     color: var(--text);
     font-family: "Space Grotesk", "Segoe UI", sans-serif;
     background:
-        radial-gradient(circle at 10% 15%, rgba(50, 150, 95, 0.25), transparent 35%),
-        radial-gradient(circle at 80% 0%, rgba(36, 209, 127, 0.18), transparent 42%),
+        radial-gradient(circle at 10% 15%, var(--bg-glow-1), transparent 35%),
+        radial-gradient(circle at 80% 0%, var(--bg-glow-2), transparent 42%),
         linear-gradient(130deg, var(--bg-1), var(--bg-2));
     overflow-x: hidden;
+    transition: background 260ms ease, color 220ms ease;
 }
 
 html,
@@ -36,8 +77,8 @@ body::before {
     position: fixed;
     inset: 0;
     pointer-events: none;
-    background-image: linear-gradient(rgba(110, 255, 164, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(110, 255, 164, 0.04) 1px, transparent 1px);
+    background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
     background-size: 48px 48px;
     mask-image: radial-gradient(circle at center, black 30%, transparent 95%);
 }
@@ -51,9 +92,9 @@ body::before {
     position: sticky;
     top: 0;
     z-index: 20;
-    background: rgba(3, 8, 6, 0.82);
+    background: var(--header-bg);
     backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(110, 255, 164, 0.2);
+    border-bottom: 1px solid var(--header-border);
 }
 
 .site-header .container {
@@ -65,7 +106,7 @@ body::before {
 .site-header-inner {
     min-height: 76px;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) auto auto;
     align-items: center;
     gap: 20px;
 }
@@ -87,7 +128,7 @@ body::before {
     height: 10px;
     border-radius: 50%;
     background: var(--accent);
-    box-shadow: 0 0 16px rgba(4, 154, 59, 0.9);
+    box-shadow: 0 0 16px var(--brand-glow);
 }
 
 nav {
@@ -97,7 +138,7 @@ nav {
     align-items: center;
     justify-content: flex-end;
     margin-left: 0;
-    justify-self: end;
+    justify-self: start;
     text-align: right;
     animation: navSlideIn 650ms ease-out;
 }
@@ -113,12 +154,35 @@ nav a {
 
 nav a:hover {
     color: var(--text);
-    border-bottom-color: rgba(110, 255, 164, 0.45);
+    border-bottom-color: var(--nav-hover-border);
 }
 
 nav a.active {
     color: var(--text);
     border-bottom-color: var(--accent);
+}
+
+.theme-toggle {
+    justify-self: end;
+    border: 1px solid var(--panel-border);
+    background: var(--panel);
+    color: var(--text);
+    border-radius: 999px;
+    padding: 8px 14px;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 180ms ease, transform 180ms ease, background 180ms ease;
+}
+
+.theme-toggle:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+}
+
+.theme-toggle:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
 }
 
 .hero {
@@ -201,7 +265,7 @@ h1 {
 }
 
 .chip {
-    border: 1px solid rgba(110, 255, 164, 0.35);
+    border: 1px solid var(--chip-border);
     border-radius: 999px;
     padding: 4px 10px;
     font-size: 0.78rem;
@@ -209,7 +273,7 @@ h1 {
 }
 
 .timeline {
-    border-left: 2px solid rgba(110, 255, 164, 0.35);
+    border-left: 2px solid var(--timeline-border);
     margin-left: 6px;
     padding-left: 20px;
     display: grid;
@@ -250,11 +314,23 @@ input,
 textarea {
     width: 100%;
     border-radius: 12px;
-    border: 1px solid rgba(110, 255, 164, 0.3);
-    background: rgba(2, 11, 7, 0.7);
+    border: 1px solid var(--input-border);
+    background: var(--input-bg);
     color: var(--text);
     padding: 11px 12px;
     font: inherit;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: color-mix(in srgb, var(--muted) 76%, white 24%);
+}
+
+input:focus,
+textarea:focus {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 1px;
+    border-color: var(--accent);
 }
 
 textarea {
@@ -268,13 +344,17 @@ textarea {
     border-radius: 999px;
     padding: 10px 18px;
     background: linear-gradient(100deg, var(--accent-2), var(--accent));
-    color: #022f1a;
+    color: var(--btn-text);
     font-weight: 700;
     cursor: pointer;
 }
 
+.btn:hover {
+    filter: brightness(1.06);
+}
+
 .site-footer {
-    border-top: 1px solid rgba(110, 255, 164, 0.25);
+    border-top: 1px solid var(--footer-border);
     padding: 18px 0 26px;
     color: var(--muted);
     font-size: 0.92rem;
@@ -335,6 +415,11 @@ textarea {
         flex-wrap: wrap;
         justify-content: flex-start;
         gap: 10px 14px;
+    }
+
+    .theme-toggle {
+        width: fit-content;
+        align-self: flex-start;
     }
 
     nav a {
