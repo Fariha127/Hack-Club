@@ -13,6 +13,13 @@
         toggle.textContent = isDark ? "Light mode" : "Dark mode";
         toggle.setAttribute("aria-pressed", String(isDark));
         toggle.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
+
+        body.classList.remove("theme-switching");
+        void body.offsetWidth;
+        body.classList.add("theme-switching");
+        window.setTimeout(function () {
+            body.classList.remove("theme-switching");
+        }, 520);
     }
 
     var savedTheme = localStorage.getItem(storageKey);
