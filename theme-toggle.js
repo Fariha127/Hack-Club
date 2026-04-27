@@ -1,5 +1,6 @@
 (function () {
     var storageKey = "hack-theme";
+    var root = document.documentElement;
     var body = document.body;
     var toggle = document.querySelector(".theme-toggle");
 
@@ -9,7 +10,7 @@
 
     function applyTheme(theme) {
         var isDark = theme === "dark";
-        body.classList.toggle("dark", isDark);
+        root.classList.toggle("dark", isDark);
         toggle.textContent = isDark ? "Light mode" : "Dark mode";
         toggle.setAttribute("aria-pressed", String(isDark));
         toggle.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
@@ -27,7 +28,7 @@
     applyTheme(initialTheme);
 
     toggle.addEventListener("click", function () {
-        var nextTheme = body.classList.contains("dark") ? "light" : "dark";
+        var nextTheme = root.classList.contains("dark") ? "light" : "dark";
         applyTheme(nextTheme);
         localStorage.setItem(storageKey, nextTheme);
     });
