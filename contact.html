@@ -23,6 +23,7 @@
 	<header class="site-header">
 		<div class="container site-header-inner">
 			<a class="brand" href="home.html"><span></span>HACK - Hardware Acceleration Club of KUET</a>
+			<button class="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">Menu</button>
 			<nav>
 				<a href="home.html">Home</a>
 				<a href="about.html">About Us</a>
@@ -45,7 +46,10 @@
 			<div class="grid two">
 				<article class="card">
 					<h2>Send a Message</h2>
-					<form class="form-wrap" action="#" method="post">
+					<form class="form-wrap" action="https://formsubmit.co/hack.kuet.club@gmail.com" method="post">
+						<input type="hidden" name="_subject" value="HACK KUET Website Contact Request">
+						<input type="hidden" name="_captcha" value="false">
+						<input id="next-url" type="hidden" name="_next" value="">
 						<div class="field">
 							<label for="name">Full Name</label>
 							<input id="name" name="name" type="text" placeholder="Your name" required>

@@ -199,6 +199,51 @@ nav a.active {
     outline-offset: 2px;
 }
 
+.nav-toggle {
+    display: none;
+    border: 1px solid var(--panel-border);
+    background: var(--panel);
+    color: var(--text);
+    border-radius: 10px;
+    padding: 8px 12px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: border-color 180ms ease, transform 180ms ease, background 180ms ease;
+}
+
+.nav-toggle:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+}
+
+.nav-toggle:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+}
+
+.page-transition-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    pointer-events: none;
+    opacity: 1;
+    background:
+        radial-gradient(circle at 10% 15%, var(--bg-glow-1), transparent 35%),
+        radial-gradient(circle at 80% 0%, var(--bg-glow-2), transparent 42%),
+        linear-gradient(130deg, var(--bg-1), var(--bg-2));
+    transition: opacity 260ms ease;
+}
+
+.page-transition-overlay.is-hidden {
+    opacity: 0;
+}
+
+.page-transition-overlay.is-active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
 .hero {
     padding: 80px 0 32px;
     animation: riseIn 700ms ease-out;
@@ -438,18 +483,30 @@ textarea {
     .site-header-inner {
         min-height: auto;
         padding: 14px 0;
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+            "brand navtoggle"
+            "nav nav"
+            "theme theme";
+        align-items: center;
         gap: 10px;
     }
 
     .brand {
-        width: 100%;
+        grid-area: brand;
         padding-top: 8px;
     }
 
+    .nav-toggle {
+        grid-area: navtoggle;
+        display: inline-flex;
+        justify-self: end;
+    }
+
     nav {
+        grid-area: nav;
+        display: none;
         width: 100%;
         margin-left: 0;
         justify-self: auto;
@@ -458,7 +515,12 @@ textarea {
         gap: 10px 14px;
     }
 
+    body.nav-open nav {
+        display: flex;
+    }
+
     .theme-toggle {
+        grid-area: theme;
         width: fit-content;
         align-self: flex-start;
     }
