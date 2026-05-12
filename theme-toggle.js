@@ -11,7 +11,7 @@
     function applyTheme(theme) {
         var isDark = theme === "dark";
         root.classList.toggle("dark", isDark);
-        toggle.textContent = isDark ? "Light mode" : "Dark mode";
+        toggle.textContent = "";
         toggle.setAttribute("aria-pressed", String(isDark));
         toggle.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
 
