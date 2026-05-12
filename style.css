@@ -190,13 +190,13 @@ nav a.active {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 78px;
-    height: 40px;
+    width: 70px;
+    height: 36px;
     border: 1px solid var(--panel-border);
     background: linear-gradient(180deg, var(--toggle-track), var(--panel));
     color: var(--text);
     border-radius: 999px;
-    padding: 4px;
+    padding: 3px;
     font-size: 0;
     line-height: 1;
     cursor: pointer;
@@ -214,10 +214,10 @@ nav a.active {
 .theme-toggle::before {
     content: "☾";
     position: absolute;
-    left: 4px;
+    left: 3px;
     top: 50%;
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     border-radius: 999px;
     background: var(--toggle-thumb);
     box-shadow: var(--toggle-thumb-shadow);
@@ -231,7 +231,7 @@ nav a.active {
 
 .theme-toggle[aria-pressed="true"]::before {
     left: auto;
-    right: 4px;
+    right: 3px;
     transform: translate3d(0, -50%, 0);
     content: "☀";
 }
