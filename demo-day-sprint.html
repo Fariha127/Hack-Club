@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        try {
+            if (localStorage.getItem("hack-theme") === "dark") {
+                document.documentElement.classList.add("dark");
+            }
+        } catch (error) {
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+    <script src="theme-toggle.js" defer></script>
+    <script src="main.js" defer></script>
+    <title>From Prototype to Demo Day in 10 Days | HACK KUET</title>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container site-header-inner">
+            <a class="brand" href="home.html"><span></span>HACK - Hardware Acceleration Club of KUET</a>
+            <button class="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">Menu</button>
+            <nav>
+                <a href="home.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a href="project.html">Projects</a>
+                <a class="active" href="blogs.html">Blogs</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"></button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <p class="eyebrow">December 2025</p>
+            <h1>From Prototype to Demo Day in 10 Days</h1>
+            <p class="lead">A short sprint workflow for teams that need a reliable presentation without pretending the project is perfect.</p>
+        </section>
+
+        <section class="section">
+            <article class="card">
+                <span class="meta">Sprint Workflow</span>
+                <p>We start by cutting the project down to one clear story. What should the audience see first? What should happen next? What can fail without breaking the demonstration? Once that is defined, we assign owners for the hardware, firmware, and presentation pieces so everyone knows where they are accountable.</p>
+                <p>The middle of the sprint is all about integration. This is where hidden problems show up: power issues, loose connectors, timing mismatches, and assumptions that sounded fine in planning but do not survive real hardware. We keep a simplified demo mode and a fallback power path so the team can recover quickly if something misbehaves during rehearsal.</p>
+                <p>The final step is rehearsal under time pressure. That is when we find out whether the story is clear, whether the setup is repeatable, and whether the team can recover without panic. If the demo works after several full run-throughs, we know the project is ready for people, not just the lab bench.</p>
+                <div class="chips">
+                    <span class="chip">Planning</span>
+                    <span class="chip">Integration</span>
+                    <span class="chip">Demo Prep</span>
+                </div>
+            </article>
+        </section>
+
+        <section class="section">
+            <article class="card">
+                <span class="meta">What We Learned</span>
+                <ul>
+                    <li>Write a simple story for the demo before anything else.</li>
+                    <li>Keep one fallback path ready for power and presentation.</li>
+                    <li>Rehearse with the same people who will run the demo.</li>
+                </ul>
+                <p><a href="blogs.html">Back to all blogs</a></p>
+            </article>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">HACK KUET | Sharing process, not just results.</div>
+    </footer>
+</body>
+</html>

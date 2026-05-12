@@ -40,6 +40,10 @@
             <p class="eyebrow">Hardware Acceleration Club</p>
             <h1>Designing, building, and accelerating hardware innovation at KUET.</h1>
             <p class="lead">HACK is a collaborative engineering community where students turn ambitious ideas into tested systems through hands-on learning, project sprints, and team mentorship.</p>
+            <div class="hero-actions">
+                <button class="btn membership-open" id="membership-open" type="button">Become a Member</button>
+            </div>
+            <p id="membership-status" class="form-status membership-status" aria-live="polite"></p>
         </section>
 
         <section class="section">
@@ -84,6 +88,43 @@
             </div>
         </section>
     </main>
+
+    <dialog class="membership-dialog" id="membership-dialog" aria-labelledby="membership-title">
+        <div class="membership-panel">
+            <div class="membership-panel-head">
+                <div>
+                    <p class="meta">Membership</p>
+                    <h2 id="membership-title">Join HACK KUET</h2>
+                </div>
+                <button class="dialog-close" id="membership-close" type="button" aria-label="Close membership form">&times;</button>
+            </div>
+            <p class="membership-copy">Share your details and interests, and we will use the PHP backend to record your membership request.</p>
+            <form class="form-wrap membership-form" id="membership-form" action="membership.php" method="post">
+                <div class="field">
+                    <label for="member-name">Full Name</label>
+                    <input id="member-name" name="name" type="text" placeholder="Your name" required>
+                </div>
+                <div class="field">
+                    <label for="member-email">Email Address</label>
+                    <input id="member-email" name="email" type="email" placeholder="you@example.com" required>
+                </div>
+                <div class="field">
+                    <label for="member-department">Department / Year</label>
+                    <input id="member-department" name="department" type="text" placeholder="CSE, EEE, ME - 2nd Year" required>
+                </div>
+                <div class="field">
+                    <label for="member-interest">Area of Interest</label>
+                    <input id="member-interest" name="interest" type="text" placeholder="Robotics, PCB design, firmware..." required>
+                </div>
+                <div class="field">
+                    <label for="member-message">Why do you want to join?</label>
+                    <textarea id="member-message" name="message" placeholder="Tell us what you want to learn or build." required></textarea>
+                </div>
+                <button class="btn" type="submit">Submit Membership Request</button>
+                <p class="form-status" id="membership-form-status" aria-live="polite"></p>
+            </form>
+        </div>
+    </dialog>
 
     <footer class="site-footer">
         <div class="container">HACK KUET | From concept to circuit.</div>

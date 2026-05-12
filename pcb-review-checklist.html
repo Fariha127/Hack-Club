@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        try {
+            if (localStorage.getItem("hack-theme") === "dark") {
+                document.documentElement.classList.add("dark");
+            }
+        } catch (error) {
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+    <script src="theme-toggle.js" defer></script>
+    <script src="main.js" defer></script>
+    <title>PCB Review Checklist We Actually Use | HACK KUET</title>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container site-header-inner">
+            <a class="brand" href="home.html"><span></span>HACK - Hardware Acceleration Club of KUET</a>
+            <button class="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">Menu</button>
+            <nav>
+                <a href="home.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a href="project.html">Projects</a>
+                <a class="active" href="blogs.html">Blogs</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"></button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <p class="eyebrow">March 2026</p>
+            <h1>PCB Review Checklist We Actually Use</h1>
+            <p class="lead">A short pre-fabrication routine that catches layout, footprint, and assembly problems before the board leaves the bench.</p>
+        </section>
+
+        <section class="section">
+            <article class="card">
+                <span class="meta">Design Review</span>
+                <p>Our first pass is electrical. We check every power net, confirm the current path is realistic, and make sure trace widths match the load. If the board carries motors or other noisy loads, we verify the return path too. A clean schematic is not enough if the layout forces current to take a bad route.</p>
+                <p>The second pass is mechanical. That is where connector orientation, mounting holes, and silkscreen labels matter. If a connector can be flipped by accident, we fix that before fabrication. If a header is hidden under another part, we ask whether the assembly step will still be practical in a student lab with limited tools.</p>
+                <p>The final pass is boring but valuable: compare the BOM, footprints, and schematic pin numbers line by line. That is where swapped pads and mismatched package names usually show up. The goal is to make fabrication uneventful, because the best PCB review is the one that prevents a surprise later.</p>
+                <div class="chips">
+                    <span class="chip">PCB Design</span>
+                    <span class="chip">Assembly</span>
+                    <span class="chip">Checklist</span>
+                </div>
+            </article>
+        </section>
+
+        <section class="section">
+            <article class="card">
+                <span class="meta">What We Learned</span>
+                <ul>
+                    <li>Review power and current paths before anything else.</li>
+                    <li>Check connector direction and footprint alignment physically.</li>
+                    <li>Read the BOM against the schematic instead of assuming the library is correct.</li>
+                </ul>
+                <p><a href="blogs.html">Back to all blogs</a></p>
+            </article>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">HACK KUET | Sharing process, not just results.</div>
+    </footer>
+</body>
+</html>

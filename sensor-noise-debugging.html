@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        try {
+            if (localStorage.getItem("hack-theme") === "dark") {
+                document.documentElement.classList.add("dark");
+            }
+        } catch (error) {
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+    <script src="theme-toggle.js" defer></script>
+    <script src="main.js" defer></script>
+    <title>Debugging Sensor Noise in Real Labs | HACK KUET</title>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container site-header-inner">
+            <a class="brand" href="home.html"><span></span>HACK - Hardware Acceleration Club of KUET</a>
+            <button class="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">Menu</button>
+            <nav>
+                <a href="home.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a href="project.html">Projects</a>
+                <a class="active" href="blogs.html">Blogs</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"></button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <p class="eyebrow">January 2026</p>
+            <h1>Debugging Sensor Noise in Real Labs</h1>
+            <p class="lead">How we separate electrical problems from software problems when the signal starts jumping around.</p>
+        </section>
+
+        <section class="section">
+            <article class="card">
+                <span class="meta">Troubleshooting</span>
+                <p>The fastest way to understand a noisy sensor is to measure the raw output before filtering anything in code. If the signal is unstable at the pin, the problem is usually wiring, grounding, or power quality. We look for loose jumpers, long leads, and shared supply paths that let one device disturb another.</p>
+                <p>Once the hardware looks sane, we focus on sampling. A bad sample rate can make a stable signal look chaotic, and a weak filter can hide the actual shape of the data. We prefer short, direct tests that isolate one variable at a time. That keeps us from guessing when the issue is really the timing window or the sensor’s response curve.</p>
+                <p>When the lab is noisy, the best fix is often simple: shorten the cable, add a ground reference, and give the sensor a cleaner power rail. Those changes are not exciting, but they usually do more than a complicated algorithm that is trying to rescue bad input.</p>
+                <div class="chips">
+                    <span class="chip">Sensors</span>
+                    <span class="chip">Sampling</span>
+                    <span class="chip">Filtering</span>
+                </div>
+            </article>
+        </section>
+
+        <section class="section">
+            <article class="card">
+                <span class="meta">What We Learned</span>
+                <ul>
+                    <li>Check the signal at the hardware pin before changing code.</li>
+                    <li>Treat power and grounding as part of the debugging process.</li>
+                    <li>Use filtering only after the raw data path is understood.</li>
+                </ul>
+                <p><a href="blogs.html">Back to all blogs</a></p>
+            </article>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">HACK KUET | Sharing process, not just results.</div>
+    </footer>
+</body>
+</html>

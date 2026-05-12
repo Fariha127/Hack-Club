@@ -247,11 +247,91 @@
         });
     }
 
+    function setupMembershipForm() {
+        var openButton = document.getElementById("membership-open");
+        var dialog = document.getElementById("membership-dialog");
+        var closeButton = document.getElementById("membership-close");
+        var form = document.getElementById("membership-form");
+        var status = document.getElementById("membership-status");
+        var formStatus = document.getElementById("membership-form-status");
+
+        if (!openButton || !dialog || !form || !status) {
+            return;
+        }
+
+        function showPageStatus(text, type) {
+            status.textContent = text;
+            status.classList.remove("success", "error");
+            if (type) {
+                status.classList.add(type);
+            }
+        }
+
+        function openDialog() {
+            if (typeof dialog.showModal === "function") {
+                dialog.showModal();
+                return;
+            }
+
+            dialog.setAttribute("open", "");
+        }
+
+        function closeDialog() {
+            if (typeof dialog.close === "function") {
+                dialog.close();
+                return;
+            }
+
+            dialog.removeAttribute("open");
+        }
+
+        openButton.addEventListener("click", openDialog);
+
+        if (closeButton) {
+            closeButton.addEventListener("click", closeDialog);
+        }
+
+        dialog.addEventListener("click", function (event) {
+            var rect = dialog.getBoundingClientRect();
+            var clickedOutside = event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom;
+            if (clickedOutside) {
+                closeDialog();
+            }
+        });
+
+        var params = new URLSearchParams(window.location.search);
+        if (params.get("membership") === "success") {
+            showPageStatus("Membership request received. We will review it soon.", "success");
+            if (window.history.replaceState) {
+                params.delete("membership");
+                var query = params.toString();
+                var cleanUrl = window.location.pathname + (query ? "?" + query : "") + window.location.hash;
+                window.history.replaceState({}, document.title, cleanUrl);
+            }
+        } else if (params.get("membership") === "error") {
+            showPageStatus("We could not save your request. Please try again.", "error");
+            if (window.history.replaceState) {
+                params.delete("membership");
+                var errorQuery = params.toString();
+                var errorUrl = window.location.pathname + (errorQuery ? "?" + errorQuery : "") + window.location.hash;
+                window.history.replaceState({}, document.title, errorUrl);
+            }
+        }
+
+        form.addEventListener("submit", function () {
+            if (formStatus) {
+                formStatus.textContent = "Sending your membership request...";
+                formStatus.classList.remove("success", "error");
+            }
+        });
+    }
+
     document.addEventListener("DOMContentLoaded", function () {
         setupPageTransitions();
         setActiveNavLink();
         setupMobileMenu();
         setupRevealAnimation();
         setupContactForm();
+        setupMembershipForm();
     });
 })();

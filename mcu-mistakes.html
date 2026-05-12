@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        try {
+            if (localStorage.getItem("hack-theme") === "dark") {
+                document.documentElement.classList.add("dark");
+            }
+        } catch (error) {
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+    <script src="theme-toggle.js" defer></script>
+    <script src="main.js" defer></script>
+    <title>Common MCU Mistakes New Builders Make | HACK KUET</title>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container site-header-inner">
+            <a class="brand" href="home.html"><span></span>HACK - Hardware Acceleration Club of KUET</a>
+            <button class="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">Menu</button>
+            <nav>
+                <a href="home.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a href="project.html">Projects</a>
+                <a class="active" href="blogs.html">Blogs</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"></button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <p class="eyebrow">November 2025</p>
+            <h1>Common MCU Mistakes New Builders Make</h1>
+            <p class="lead">The small setup errors that waste the most time on early embedded projects, and how we catch them faster.</p>
+        </section>
+
+        <section class="section">
+            <article class="card">
+                <span class="meta">Beginner Pitfalls</span>
+                <p>Most MCU problems are not dramatic. The board is often just underpowered, held in the wrong boot mode, or wired in a way that hides the real issue. We tell new builders to confirm power first, then reset and clock behavior, and only then move on to firmware upload or peripheral debugging.</p>
+                <p>Another common mistake is trusting the example circuit without checking the board in front of you. Real wiring has resistance, and real student projects have loose headers, swapped cables, and connectors plugged in one row off. The quickest way to find those issues is to compare the board against a known-good reference and measure at the board, not at the supply.</p>
+                <p>The point is not to make beginners memorize every failure mode. The point is to give them a repeatable order of checks so they can stop guessing. Once they have a habit of looking at power, reset, and pin mapping first, the rest of the debugging process becomes much less chaotic.</p>
+                <div class="chips">
+                    <span class="chip">MCU Basics</span>
+                    <span class="chip">Debugging</span>
+                    <span class="chip">Power</span>
+                </div>
+            </article>
+        </section>
+
+        <section class="section">
+            <article class="card">
+                <span class="meta">What We Learned</span>
+                <ul>
+                    <li>Verify power and reset before assuming the firmware is the problem.</li>
+                    <li>Check pin numbering and connector orientation on the real board.</li>
+                    <li>Keep a known-good example around as a debugging baseline.</li>
+                </ul>
+                <p><a href="blogs.html">Back to all blogs</a></p>
+            </article>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">HACK KUET | Sharing process, not just results.</div>
+    </footer>
+</body>
+</html>

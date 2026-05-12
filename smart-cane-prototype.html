@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        try {
+            if (localStorage.getItem("hack-theme") === "dark") {
+                document.documentElement.classList.add("dark");
+            }
+        } catch (error) {
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+    <script src="theme-toggle.js" defer></script>
+    <script src="main.js" defer></script>
+    <title>Smart Cane Prototype | HACK KUET</title>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container site-header-inner">
+            <a class="brand" href="home.html"><span></span>HACK - Hardware Acceleration Club of KUET</a>
+            <button class="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">Menu</button>
+            <nav>
+                <a href="home.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a class="active" href="project.html">Projects</a>
+                <a href="blogs.html">Blogs</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"></button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <p class="eyebrow">Assistive Tech</p>
+            <h1>Smart Cane Prototype</h1>
+            <p class="lead">An obstacle-aware cane prototype that turns distance measurements into immediate haptic feedback for indoor navigation.</p>
+        </section>
+
+        <section class="section">
+            <article class="card">
+                <span class="meta">Overview</span>
+                <p>The cane prototype was designed around one idea: keep the feedback fast enough to be useful without overwhelming the user. Ultrasonic sensing handles obstacle detection, and a simple vibration system translates distance into tactile cues. That makes the device practical for hallways, stairwells, and other indoor spaces where visual attention may already be divided.</p>
+                <p>We spent a lot of time reducing latency. If the sensor update or vibration response feels delayed, the user has less confidence in the system. By keeping the firmware direct and the hardware compact, we got a response that feels immediate and easy to interpret.</p>
+                <p>The project also taught us that assistive devices need to be tuned for comfort, not just detection range. Feedback strength, placement, and battery life all matter. A technically accurate device is not enough if the user does not want to carry it for a full day.</p>
+                <div class="chips">
+                    <span class="chip">Ultrasonic</span>
+                    <span class="chip">Haptics</span>
+                    <span class="chip">Portable</span>
+                </div>
+            </article>
+        </section>
+
+        <section class="section">
+            <article class="card">
+                <span class="meta">Project Notes</span>
+                <ul>
+                    <li>Keep the feedback quick, simple, and easy to interpret.</li>
+                    <li>Test the device in real walking conditions, not only on a bench.</li>
+                    <li>Balance sensitivity with comfort and battery life.</li>
+                </ul>
+                <p><a href="project.html">Back to all projects</a></p>
+            </article>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">HACK KUET | Turning prototypes into repeatable systems.</div>
+    </footer>
+</body>
+</html>

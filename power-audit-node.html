@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        try {
+            if (localStorage.getItem("hack-theme") === "dark") {
+                document.documentElement.classList.add("dark");
+            }
+        } catch (error) {
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+    <script src="theme-toggle.js" defer></script>
+    <script src="main.js" defer></script>
+    <title>Power Audit Node | HACK KUET</title>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container site-header-inner">
+            <a class="brand" href="home.html"><span></span>HACK - Hardware Acceleration Club of KUET</a>
+            <button class="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">Menu</button>
+            <nav>
+                <a href="home.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a class="active" href="project.html">Projects</a>
+                <a href="blogs.html">Blogs</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"></button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <p class="eyebrow">Smart Energy</p>
+            <h1>Power Audit Node</h1>
+            <p class="lead">Distributed IoT nodes that watch voltage usage across lab equipment and send alerts when power draw looks unusual.</p>
+        </section>
+
+        <section class="section">
+            <article class="card">
+                <span class="meta">Overview</span>
+                <p>The Power Audit Node was built to help teams understand how their lab devices behave over time. Each node measures voltage patterns, packages the readings, and sends them to a central dashboard over MQTT. The goal is not just monitoring; it is making abnormal behavior visible early enough that a team can react before a device fails in the middle of a session.</p>
+                <p>We kept the hardware simple so that deployment would be practical. An ESP32 handles connectivity, while a sensing circuit tracks voltage changes with enough precision to spot meaningful trends. The firmware batches readings, filters out obvious noise, and reports only the information that matters for day-to-day use.</p>
+                <p>In testing, the most useful feature turned out to be the alert threshold tuning. Different lab tools have different normal signatures, so the node can be adjusted per device. That flexibility makes the system usable across benches instead of only in one controlled setup.</p>
+                <div class="chips">
+                    <span class="chip">ESP32</span>
+                    <span class="chip">MQTT</span>
+                    <span class="chip">Voltage Tracking</span>
+                </div>
+            </article>
+        </section>
+
+        <section class="section">
+            <article class="card">
+                <span class="meta">Project Notes</span>
+                <ul>
+                    <li>Use a sensing path that is stable enough for long-term trend detection.</li>
+                    <li>Keep alerts configurable so one baseline does not have to fit every device.</li>
+                    <li>Present readings in a format that is useful to both builders and operators.</li>
+                </ul>
+                <p><a href="project.html">Back to all projects</a></p>
+            </article>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">HACK KUET | Turning prototypes into repeatable systems.</div>
+    </footer>
+</body>
+</html>

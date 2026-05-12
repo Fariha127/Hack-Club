@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        try {
+            if (localStorage.getItem("hack-theme") === "dark") {
+                document.documentElement.classList.add("dark");
+            }
+        } catch (error) {
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+    <script src="theme-toggle.js" defer></script>
+    <script src="main.js" defer></script>
+    <title>Line-Following Rover V3 | HACK KUET</title>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container site-header-inner">
+            <a class="brand" href="home.html"><span></span>HACK - Hardware Acceleration Club of KUET</a>
+            <button class="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">Menu</button>
+            <nav>
+                <a href="home.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a class="active" href="project.html">Projects</a>
+                <a href="blogs.html">Blogs</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"></button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <p class="eyebrow">Robotics</p>
+            <h1>Line-Following Rover V3</h1>
+            <p class="lead">A competition rover built for stable control, cleaner wiring, and telemetry that helps the team tune it fast.</p>
+        </section>
+
+        <section class="section">
+            <article class="card">
+                <span class="meta">Overview</span>
+                <p>This revision of the rover focused on making the control loop reliable under real race conditions. Earlier builds could move quickly in a straight line, but they became hard to predict when the track changed surface or the battery dipped. Version 3 adds better motor drivers, a cleaner sensor layout, and firmware that exposes the right telemetry while the robot is running.</p>
+                <p>We tuned the chassis so it could recover from turns without overshooting. That meant treating the control logic and the mechanical build as one system. A stiffer frame, shorter wire runs, and better sensor positioning made the controller much easier to tune than the previous version.</p>
+                <p>For the team, the most useful improvement was observability. Instead of guessing why the rover drifted, we could see the sensor patterns and response timing in real time. That made track testing shorter and the final behavior much more repeatable.</p>
+                <div class="chips">
+                    <span class="chip">PID Control</span>
+                    <span class="chip">STM32</span>
+                    <span class="chip">Telemetry</span>
+                </div>
+            </article>
+        </section>
+
+        <section class="section">
+            <article class="card">
+                <span class="meta">Project Notes</span>
+                <ul>
+                    <li>Keep the mechanical layout stable before chasing control gains.</li>
+                    <li>Expose telemetry that helps tuning, not just raw data for its own sake.</li>
+                    <li>Optimize for repeatable laps instead of one perfect run.</li>
+                </ul>
+                <p><a href="project.html">Back to all projects</a></p>
+            </article>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">HACK KUET | Turning prototypes into repeatable systems.</div>
+    </footer>
+</body>
+</html>

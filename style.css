@@ -321,6 +321,17 @@ h1 {
     line-height: 1.6;
 }
 
+.hero-actions {
+    margin-top: 22px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.membership-status {
+    margin-top: 12px;
+}
+
 .section {
     padding: 24px 0 56px;
 }
@@ -345,6 +356,30 @@ h1 {
     padding: 22px;
     box-shadow: var(--shadow);
     animation: riseIn 700ms ease both;
+}
+
+.card-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    height: 100%;
+}
+
+.card-link .card {
+    height: 100%;
+    transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.card-link:hover .card {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow: 0 22px 48px rgba(26, 74, 42, 0.18);
+}
+
+.card-link:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 4px;
+    border-radius: 18px;
 }
 
 .card h3 {
@@ -463,6 +498,71 @@ textarea {
 
 .btn:hover {
     filter: brightness(1.06);
+}
+
+.membership-dialog {
+    width: min(680px, calc(100% - 28px));
+    border: 0;
+    padding: 0;
+    background: transparent;
+}
+
+.membership-dialog::backdrop {
+    background: rgba(2, 7, 4, 0.62);
+    backdrop-filter: blur(8px);
+}
+
+.membership-panel {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    padding: 24px;
+}
+
+.membership-panel-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+
+.membership-panel h2 {
+    margin-top: 2px;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+}
+
+.membership-copy {
+    margin: 0 0 18px;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.membership-form {
+    gap: 14px;
+}
+
+.dialog-close {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--panel-border);
+    border-radius: 50%;
+    background: var(--panel);
+    color: var(--text);
+    font: inherit;
+    font-size: 1.35rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.dialog-close:hover {
+    border-color: var(--accent);
+}
+
+.dialog-close:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
 }
 
 .form-status {
@@ -594,6 +694,14 @@ textarea {
 
     nav {
         gap: 8px 12px;
+    }
+
+    .membership-panel {
+        padding: 18px;
+    }
+
+    .membership-panel-head {
+        align-items: center;
     }
 }
 

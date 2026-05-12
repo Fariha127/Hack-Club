@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        try {
+            if (localStorage.getItem("hack-theme") === "dark") {
+                document.documentElement.classList.add("dark");
+            }
+        } catch (error) {
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+    <script src="theme-toggle.js" defer></script>
+    <script src="main.js" defer></script>
+    <title>Flight Data Logger | HACK KUET</title>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container site-header-inner">
+            <a class="brand" href="home.html"><span></span>HACK - Hardware Acceleration Club of KUET</a>
+            <button class="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">Menu</button>
+            <nav>
+                <a href="home.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a class="active" href="project.html">Projects</a>
+                <a href="blogs.html">Blogs</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"></button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <p class="eyebrow">Aerospace</p>
+            <h1>Flight Data Logger</h1>
+            <p class="lead">A compact sensing stack for recording altitude, acceleration, and orientation during model rocket tests.</p>
+        </section>
+
+        <section class="section">
+            <article class="card">
+                <span class="meta">Overview</span>
+                <p>The flight logger was built to capture the full profile of a model rocket launch without adding too much weight or complexity. A barometric sensor records altitude changes, the IMU tracks acceleration and orientation, and the firmware stores the stream on an SD card for later analysis. That gives the team a practical way to compare expected and actual flight behavior.</p>
+                <p>We designed the stack to survive vibration and rapid motion. The electronics are compact, the data path is simple, and the logging rate is chosen to keep the most useful moments instead of flooding the card with redundant samples. After each test, the files can be reviewed to understand thrust timing, climb profile, and any unexpected motion.</p>
+                <p>The logger is especially useful for learning because it turns a launch into a measurable event. Rather than guessing whether a change helped, the team can inspect the data and compare runs. That makes the next build cycle much more grounded in evidence.</p>
+                <div class="chips">
+                    <span class="chip">BMP388</span>
+                    <span class="chip">IMU</span>
+                    <span class="chip">SD Logging</span>
+                </div>
+            </article>
+        </section>
+
+        <section class="section">
+            <article class="card">
+                <span class="meta">Project Notes</span>
+                <ul>
+                    <li>Prioritize vibration tolerance and compact packaging.</li>
+                    <li>Log only the samples that are useful for post-flight analysis.</li>
+                    <li>Make comparisons between test flights straightforward.</li>
+                </ul>
+                <p><a href="project.html">Back to all projects</a></p>
+            </article>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">HACK KUET | Turning prototypes into repeatable systems.</div>
+    </footer>
+</body>
+</html>

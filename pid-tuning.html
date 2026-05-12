@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        try {
+            if (localStorage.getItem("hack-theme") === "dark") {
+                document.documentElement.classList.add("dark");
+            }
+        } catch (error) {
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+    <script src="theme-toggle.js" defer></script>
+    <script src="main.js" defer></script>
+    <title>How We Tune PID for Fast Tracks | HACK KUET</title>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container site-header-inner">
+            <a class="brand" href="home.html"><span></span>HACK - Hardware Acceleration Club of KUET</a>
+            <button class="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">Menu</button>
+            <nav>
+                <a href="home.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a href="project.html">Projects</a>
+                <a class="active" href="blogs.html">Blogs</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"></button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <p class="eyebrow">April 2026</p>
+            <h1>How We Tune PID for Fast Tracks</h1>
+            <p class="lead">A practical tuning routine for line followers that need to stay quick on changing floors, batteries, and lighting.</p>
+        </section>
+
+        <section class="section">
+            <article class="card">
+                <span class="meta">Field Notes</span>
+                <p>We tune in stages. First we check that the sensors read cleanly and the robot can follow the line at a very low gain. Then we increase proportional response until the robot reacts quickly, but not so aggressively that it starts to swing back and forth after every correction.</p>
+                <p>Once the base response is stable, we add only a small amount of integral correction. That part is easy to overdo, especially when the test track is too clean. In real runs, battery voltage drifts, the floor changes, and the robot sees slightly different reflectance every lap. The controller has to survive that, not just a perfect demo table.</p>
+                <p>We keep derivative gain conservative. If the hardware is already vibrating or the sensor reads with a bit of delay, too much D gain just makes the system chase noise. The best results usually come from a controller that is slightly less clever and much more predictable.</p>
+                <div class="chips">
+                    <span class="chip">Control Systems</span>
+                    <span class="chip">Tuning</span>
+                    <span class="chip">Robotics</span>
+                </div>
+            </article>
+        </section>
+
+        <section class="section">
+            <article class="card">
+                <span class="meta">What We Learned</span>
+                <ul>
+                    <li>Tune on the worst believable track, not the easiest one.</li>
+                    <li>Change one gain at a time and keep a small log of every step.</li>
+                    <li>Prioritize stability first, then speed, then polish.</li>
+                </ul>
+                <p><a href="blogs.html">Back to all blogs</a></p>
+            </article>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">HACK KUET | Sharing process, not just results.</div>
+    </footer>
+</body>
+</html>

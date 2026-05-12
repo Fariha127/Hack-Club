@@ -44,36 +44,84 @@
 
 		<section class="section">
 			<div class="grid three">
+				<a class="card-link" href="pid-tuning.html" aria-label="Read the full blog post How We Tune PID for Fast Tracks">
 				<article class="card">
 					<span class="meta">April 2026</span>
 					<h3>How We Tune PID for Fast Tracks</h3>
-					<p>A practical method for tuning line-following controllers when grip, battery, and lighting keep changing.</p>
+					<p>We start by locking the robot to one repeatable test lane, then tune the proportional gain until the chassis begins to respond quickly without oscillating. From there, we add only enough integral correction to remove steady drift and keep the controller from “hunting” when the floor gets uneven.</p>
+					<p>The biggest mistake we see is tuning for a perfect room instead of the real one. Battery voltage drops, sensor reflectance changes, and cable flex all show up as noise. Our fix is to tune for the worst believable run, not the best one, and keep a simple log of every change so we can reverse a bad step fast.</p>
+					<div class="chips">
+						<span class="chip">Control Systems</span>
+						<span class="chip">Line Follower</span>
+						<span class="chip">Iteration Log</span>
+					</div>
 				</article>
+				</a>
+				<a class="card-link" href="pcb-review-checklist.html" aria-label="Read the full blog post PCB Review Checklist We Actually Use">
 				<article class="card">
 					<span class="meta">March 2026</span>
 					<h3>PCB Review Checklist We Actually Use</h3>
-					<p>Our short pre-fabrication checklist that catches grounding, trace width, and connector orientation issues.</p>
+					<p>Before sending a board out, we review the layout in three passes: power, signals, and assembly. Power nets get checked first, because a misplaced ground pour or undersized trace can ruin everything downstream. Once that passes, we look at routing symmetry, connector direction, and whether a human can actually plug the board in without guessing.</p>
+					<p>We also compare the schematic against the BOM and footprint library. Many of the problems we’ve hit were not electrical at all; they were footprint mismatches, swapped pin numbering, or a part that looked fine in the editor but was impossible to solder by hand. The checklist keeps those mistakes out before fabrication turns them into delays.</p>
+					<div class="chips">
+						<span class="chip">PCB Design</span>
+						<span class="chip">Pre-Flight Check</span>
+						<span class="chip">Assembly</span>
+					</div>
 				</article>
+				</a>
+				<a class="card-link" href="firmware-architecture.html" aria-label="Read the full blog post Firmware Architecture for Student Teams">
 				<article class="card">
 					<span class="meta">February 2026</span>
 					<h3>Firmware Architecture for Student Teams</h3>
-					<p>How we split drivers, services, and app logic so new members can contribute without breaking core behavior.</p>
+					<p>We keep firmware predictable by splitting it into drivers, services, and application logic. Drivers only talk to hardware. Services translate that raw data into useful state. The app layer makes decisions. That separation means a new member can improve a sensor driver without accidentally changing how the robot decides to move.</p>
+					<p>The other rule is to keep interfaces boring. Small functions, clear names, and no hidden state make reviews easier and debugging much faster. If someone has to trace five files to understand one behavior, the architecture is already too tangled. Clean boundaries let a team grow without turning every edit into a risk.</p>
+					<div class="chips">
+						<span class="chip">Embedded C</span>
+						<span class="chip">Modular Code</span>
+						<span class="chip">Team Workflow</span>
+					</div>
 				</article>
+				</a>
+				<a class="card-link" href="sensor-noise-debugging.html" aria-label="Read the full blog post Debugging Sensor Noise in Real Labs">
 				<article class="card">
 					<span class="meta">January 2026</span>
 					<h3>Debugging Sensor Noise in Real Labs</h3>
-					<p>Signal filtering and sampling strategies to keep measurements stable in noisy electrical environments.</p>
+					<p>Lab noise usually comes from power rails, long jumper wires, and the fact that nothing stays still while you are testing. We start by reading the raw signal on its own, then compare it against known-good reference values. If the signal is noisy before code touches it, the problem is probably electrical, not algorithmic.</p>
+					<p>Filtering helps, but only after the wiring and sampling rate make sense. Oversampling a bad signal just gives you more bad data. We get better results by fixing grounding, shortening cables, and using a sampling window that matches the sensor’s real response time. That combination is usually enough to turn random spikes into something usable.</p>
+					<div class="chips">
+						<span class="chip">Signals</span>
+						<span class="chip">Sampling</span>
+						<span class="chip">Noise Reduction</span>
+					</div>
 				</article>
+				</a>
+				<a class="card-link" href="demo-day-sprint.html" aria-label="Read the full blog post From Prototype to Demo Day in 10 Days">
 				<article class="card">
 					<span class="meta">December 2025</span>
 					<h3>From Prototype to Demo Day in 10 Days</h3>
-					<p>A sprint workflow for planning integrations, fallback paths, and testing ownership across members.</p>
+					<p>Our demo-day sprint begins by cutting the project down to one story: what should the audience see, in what order, and what can fail without breaking the presentation. Once that story is clear, we assign owners for hardware, firmware, and fallback prep so each part has one accountable person.</p>
+					<p>The last three days are reserved for integration and rehearsal. That is where most teams discover that their “almost done” parts do not actually fit together. We keep a spare power path, a simplified demo mode, and a printed checklist so the team can recover quickly if one subsystem misbehaves minutes before the show.</p>
+					<div class="chips">
+						<span class="chip">Sprint Planning</span>
+						<span class="chip">Demo Prep</span>
+						<span class="chip">Fallback Plan</span>
+					</div>
 				</article>
+				</a>
+				<a class="card-link" href="mcu-mistakes.html" aria-label="Read the full blog post Common MCU Mistakes New Builders Make">
 				<article class="card">
 					<span class="meta">November 2025</span>
 					<h3>Common MCU Mistakes New Builders Make</h3>
-					<p>Boot mode issues, power sequencing confusion, and the simple habits that prevent wasted debugging hours.</p>
+					<p>New MCU projects often fail for boring reasons: wrong boot pins, weak grounding, or a board that never fully powers up. We teach members to verify power first, then confirm clock and reset behavior, and only after that move on to firmware upload. It saves a lot of time compared with chasing software before the chip is even alive.</p>
+					<p>Another common trap is assuming the board behaves like the datasheet example. Real wiring introduces resistance, noise, and human error. The habit that helps most is measuring at the board, not at the bench supply, and keeping a known-good reference sketch around. That gives everyone a stable baseline when a new design goes wrong.</p>
+					<div class="chips">
+						<span class="chip">MCU Basics</span>
+						<span class="chip">Power Checks</span>
+						<span class="chip">Debugging</span>
+					</div>
 				</article>
+				</a>
 			</div>
 		</section>
 	</main>
