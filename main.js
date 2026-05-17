@@ -326,6 +326,64 @@
         });
     }
 
+    function setupSliders() {
+        var sliders = document.querySelectorAll('.slider');
+        if (!sliders || !sliders.length) return;
+
+        sliders.forEach(function (slider) {
+            var slidesWrap = slider.querySelector('.slides');
+            var slides = slider.querySelectorAll('.slide');
+            var prev = slider.querySelector('.slider-prev');
+            var next = slider.querySelector('.slider-next');
+            var dots = slider.querySelector('.slider-dots');
+            var index = 0;
+            var total = slides.length || 0;
+            if (!total) return;
+
+            // Ensure the slides wrapper and each slide have explicit widths
+            // so percentage transforms behave consistently across pages.
+            try {
+                slidesWrap.style.width = (total * 100) + '%';
+                slides.forEach(function (s) { s.style.width = (100 / total) + '%'; });
+            } catch (e) {
+                // ignore styling errors
+            }
+
+            function go(i) {
+                index = (i + total) % total;
+                var shiftPercent = -index * (100 / total);
+                slidesWrap.style.transform = 'translateX(' + shiftPercent + '%)';
+                updateDots();
+            }
+
+            function updateDots() {
+                if (!dots) return;
+                dots.innerHTML = '';
+                for (var j = 0; j < total; j++) {
+                    var b = document.createElement('button');
+                    if (j === index) b.className = 'is-active';
+                    (function (n) { b.addEventListener('click', function () { go(n); reset(); }); })(j);
+                    dots.appendChild(b);
+                }
+            }
+
+            if (prev) prev.addEventListener('click', function () { go(index - 1); reset(); });
+            if (next) next.addEventListener('click', function () { go(index + 1); reset(); });
+
+            var timer = null;
+            function start() { stop(); timer = setInterval(function () { go(index + 1); }, 4000); }
+            function stop() { if (timer) { clearInterval(timer); timer = null; } }
+            function reset() { stop(); start(); }
+
+            slider.addEventListener('mouseenter', stop);
+            slider.addEventListener('mouseleave', start);
+
+            updateDots();
+            go(0);
+            start();
+        });
+    }
+
     document.addEventListener("DOMContentLoaded", function () {
         setupPageTransitions();
         setActiveNavLink();
@@ -333,5 +391,6 @@
         setupRevealAnimation();
         setupContactForm();
         setupMembershipForm();
+        setupSliders();
     });
 })();
