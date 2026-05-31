@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<script>
+		try {
+			if (localStorage.getItem("hack-theme") === "dark") {
+				document.documentElement.classList.add("dark");
+			}
+		} catch (error) {
+		}
+	</script>
+	<link rel="stylesheet" href="style.css">
+	<script src="theme-toggle.js" defer></script>
+	<script src="main.js" defer></script>
+	<title>Event | HACK KUET</title>
+</head>
+<body>
+	<header class="site-header">
+		<div class="container site-header-inner">
+			<a class="brand" href="home.html"><span></span>HACK - Hardware Acceleration Club of KUET</a>
+			<button class="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">Menu</button>
+			<nav>
+				<a href="home.html">Home</a>
+				<a href="about.html">About Us</a>
+                <a class="active" href="event.html">Events</a>
+				<a href="project.html">Projects</a>
+				<a href="blogs.html">Blogs</a>
+				<a href="contact.html">Contact</a>
+			</nav>
+			<button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"></button>
+		</div>
+	</header>
+
+	<div class="slider" aria-roledescription="carousel">
+		<div class="slides">
+			<div class="slide"><img src="Picture 4.jpg" alt="Members soldering in a workshop"></div>
+			<div class="slide"><img src="Picture 5.jpg" alt="Prototype rover on a test field"></div>
+			<div class="slide"><img src="Picture 6.jpg" alt="PCB assembly and inspection"></div>
+		</div>
+		<button class="slider-prev" aria-label="Previous slide">‹</button>
+		<button class="slider-next" aria-label="Next slide">›</button>
+		<div class="slider-dots" aria-hidden="false"></div>
+	</div>
+
+	<main class="container">
+		<section class="hero">
+			<p class="eyebrow">Upcoming</p>
+			<h1>Events & Workshops</h1>
+			<p class="lead">Join HACK KUET events to learn hands-on skills in embedded systems, PCB design, and robotics. Check this page regularly for announcements and registration details.</p>
+		</section>
+
+		<section class="section">
+			<h2>Featured Events</h2>
+			<div class="grid two">
+				<article class="card">
+					<h3>Intro to PCB Design</h3>
+					<p>Date: June 15, 2026 — Venue: EE Lab</p>
+					<p>Hands-on workshop covering schematic capture, PCB layout, and basic manufacturing considerations.</p>
+				</article>
+				<article class="card">
+					<h3>Autonomous Rover Sprint</h3>
+					<p>Date: July 10–12, 2026 — Venue: Robotics Field</p>
+					<p>Team-based build sprint focused on navigation, sensor fusion, and motor control.</p>
+				</article>
+			</div>
+		</section>
+
+		<section class="section">
+			<h2>How to Participate</h2>
+			<p class="lead">Most workshops are free for KUET students. Registration opens two weeks before each event. Follow our social channels for live updates and sign-up links.</p>
+		</section>
+
+		<section class="section">
+			<article class="card">
+				<h2>Contact & Registration</h2>
+				<p>Email: hack-kuet@example.com</p>
+				<p>Follow us on [Instagram](https://instagram.com) for quick updates.</p>
+			</article>
+		</section>
+	</main>
+
+	<footer class="site-footer">
+		<div class="container">HACK KUET | Build fast. Test harder. Ship smarter.</div>
+	</footer>
+</body>
+</html>
