@@ -107,13 +107,15 @@
     }
 
     function setupRevealAnimation() {
-        var revealTargets = document.querySelectorAll(".hero, .card, .timeline-item");
+        var revealTargets = document.querySelectorAll(".hero, .card, .timeline-item, .team-card, .slider");
         if (!revealTargets.length) {
             return;
         }
 
-        revealTargets.forEach(function (element) {
+        revealTargets.forEach(function (element, i) {
             element.classList.add("js-reveal");
+            // stagger reveal slightly
+            try { element.style.transitionDelay = (i * 80) + 'ms'; } catch (e) { }
         });
 
         if (!("IntersectionObserver" in window)) {
