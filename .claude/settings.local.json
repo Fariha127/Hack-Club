@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"D:\\\\Others\\\\Hack-Club\" -Recurse -Force)",
+      "Bash(Select-Object FullName)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(Get-ChildItem -Recurse \"D:\\\\Others\\\\Hack-Club\\\\admin\" -File)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(Sort-Object)"
+    ]
+  }
+}

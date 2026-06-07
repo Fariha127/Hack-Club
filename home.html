@@ -164,5 +164,50 @@
     <footer class="site-footer">
         <div class="container">HACK KUET | From concept to circuit.</div>
     </footer>
+
+    <!-- Floating Admin Access Button -->
+    <div id="adminFloatBtn" style="
+        position:fixed; bottom:28px; right:28px; z-index:900;
+        display:flex; flex-direction:column; align-items:flex-end; gap:10px;">
+        <div id="adminPopup" style="
+            display:none;
+            background:var(--panel,#fff);
+            border:1px solid var(--panel-border,rgba(52,140,89,0.22));
+            border-radius:14px;
+            padding:18px 20px;
+            box-shadow:var(--shadow,0 18px 42px rgba(26,74,42,0.14));
+            min-width:190px; text-align:center;">
+            <p style="font-size:0.82rem;color:var(--muted);margin:0 0 12px;font-weight:500;">Are you an administrator?</p>
+            <a href="/admin/login.php" style="
+                display:inline-block;width:100%;padding:9px 0;
+                background:var(--accent,#23944f);color:#fff;
+                border-radius:8px;font-size:0.875rem;font-weight:700;
+                text-decoration:none;margin-bottom:8px;">
+                Admin Login
+            </a>
+            <button onclick="document.getElementById('adminPopup').style.display='none'" style="
+                display:inline-block;width:100%;padding:7px 0;
+                background:none;border:1px solid var(--panel-border);
+                border-radius:8px;font-size:0.82rem;color:var(--muted);cursor:pointer;font-family:inherit;">
+                Cancel
+            </button>
+        </div>
+        <button onclick="(function(p){p.style.display=p.style.display==='none'?'block':'none'})(document.getElementById('adminPopup'))"
+            aria-label="Admin Access"
+            title="Admin Panel"
+            style="
+                width:48px;height:48px;border-radius:50%;
+                background:var(--accent,#23944f);color:#fff;
+                border:none;cursor:pointer;
+                display:flex;align-items:center;justify-content:center;
+                box-shadow:0 4px 18px rgba(35,148,79,0.35);
+                transition:transform 160ms,box-shadow 160ms;
+                font-size:1.2rem;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+        </button>
+    </div>
 </body>
 </html>
