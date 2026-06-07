@@ -103,7 +103,7 @@ $loggedout = isset($_GET['loggedout']);
         <button type="submit" class="btn-login">Sign In</button>
     </form>
 
-    <a href="<?= BASE_URL ?>/home.html" class="back-link">← Back to Website</a>
+    <a href="<?= BASE_URL ?>/home.php" class="back-link">← Back to Website</a>
 </div>
 
 <script>

@@ -54,7 +54,7 @@
     }
 
     function setActiveNavLink() {
-        var currentPage = window.location.pathname.split("/").pop() || "home.html";
+        var currentPage = window.location.pathname.split("/").pop() || "home.php";
         var navLinks = document.querySelectorAll("nav a");
 
         navLinks.forEach(function (link) {

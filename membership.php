@@ -1,6 +1,6 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: home.html');
+    header('Location: home.php');
     exit;
 }
 
@@ -16,12 +16,12 @@ $message    = trim((string) ($_POST['message'] ?? ''));
 $year       = clean_value($_POST['year']       ?? 'N/A');
 
 if ($name === '' || $email === '' || $department === '' || $interest === '' || $message === '') {
-    header('Location: home.html?membership=error');
+    header('Location: home.php?membership=error');
     exit;
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    header('Location: home.html?membership=error');
+    header('Location: home.php?membership=error');
     exit;
 }
 
@@ -55,10 +55,10 @@ if (!$saved) {
         fputcsv($handle, [gmdate('c'), $name, $email, $department, $year, $interest, $message]);
         fclose($handle);
     } else {
-        header('Location: home.html?membership=error');
+        header('Location: home.php?membership=error');
         exit;
     }
 }
 
-header('Location: home.html?membership=success');
+header('Location: home.php?membership=success');
 exit;
