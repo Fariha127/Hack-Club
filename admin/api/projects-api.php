@@ -33,16 +33,16 @@ switch ($action) {
         }
 
         if ($action === 'create') {
-            $db->prepare("INSERT INTO projects (title, slug, description, full_description, cover_image, team_members, technologies, github_link, project_status, display_order, created_by) VALUES (?,?,?,?,?,?,?,?,?,?,?)")
-               ->execute([$title, $slug, $input['description'], $input['full_description'] ?? null, $imagePath, $input['team_members'] ?? null, $input['technologies'] ?? null, $input['github_link'] ?? null, $status, $order, $adminId]);
+            $db->prepare("INSERT INTO projects (title, slug, description, full_description, cover_image, team_members, mentors, technologies, github_link, project_status, display_order, created_by) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)")
+               ->execute([$title, $slug, $input['description'], $input['full_description'] ?? null, $imagePath, $input['team_members'] ?? null, $input['mentors'] ?? null, $input['technologies'] ?? null, $input['github_link'] ?? null, $status, $order, $adminId]);
             json_ok(['id' => $db->lastInsertId(), 'message' => 'Project created.']);
         } else {
             $st = $db->prepare("SELECT cover_image FROM projects WHERE id = ?");
             $st->execute([$id]);
             $old   = $st->fetch();
             $image = $imagePath ?? ($old['cover_image'] ?? null);
-            $db->prepare("UPDATE projects SET title=?,slug=?,description=?,full_description=?,cover_image=?,team_members=?,technologies=?,github_link=?,project_status=?,display_order=? WHERE id=?")
-               ->execute([$title, $slug, $input['description'], $input['full_description'] ?? null, $image, $input['team_members'] ?? null, $input['technologies'] ?? null, $input['github_link'] ?? null, $status, $order, $id]);
+            $db->prepare("UPDATE projects SET title=?,slug=?,description=?,full_description=?,cover_image=?,team_members=?,mentors=?,technologies=?,github_link=?,project_status=?,display_order=? WHERE id=?")
+               ->execute([$title, $slug, $input['description'], $input['full_description'] ?? null, $image, $input['team_members'] ?? null, $input['mentors'] ?? null, $input['technologies'] ?? null, $input['github_link'] ?? null, $status, $order, $id]);
             if ($imagePath && $old['cover_image']) delete_file($old['cover_image']);
             json_ok(['message' => 'Project updated.']);
         }

@@ -18,10 +18,8 @@ if (!$blog) {
             <h1>Blog not found</h1>
             <p class="lead">This post may still be waiting for admin approval or may have been removed.</p>
         </section>
-        <section class="section">
-            <article class="card">
-                <p><a href="blogs.php">Back to all blogs</a></p>
-            </article>
+        <section class="section back-link-section">
+            <a class="back-link-btn" href="blogs.php">Back to all blogs</a>
         </section>
     </main>
     <?php
@@ -65,8 +63,10 @@ public_header($blog['title'], 'blogs');
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
-                <p><a href="blogs.php">Back to all blogs</a></p>
             </article>
+        </section>
+        <section class="section back-link-section">
+            <a class="back-link-btn" href="blogs.php">Back to all blogs</a>
         </section>
     </main>
 

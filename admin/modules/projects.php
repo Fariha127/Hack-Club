@@ -119,9 +119,16 @@ require_once __DIR__ . '/../includes/header.php';
                         <input type="text" name="team_members" id="projTeam" placeholder="Alice, Bob, Charlie">
                     </div>
                     <div class="form-group">
+                        <label>Mentors</label>
+                        <input type="text" name="mentors" id="projMentors" placeholder="Dr. Name, Faculty Mentor">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
                         <label>Technologies</label>
                         <input type="text" name="technologies" id="projTech" placeholder="Arduino, Python, KiCad">
                     </div>
+                    <div class="form-group"></div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
@@ -150,6 +157,15 @@ require_once __DIR__ . '/../includes/header.php';
 <div id="toast-container"></div>
 <script>
 const CSRF = '<?= csrf_token() ?>';
+const SITE_BASE = '<?= BASE_URL ?>';
+
+function assetUrl(path) {
+    path = String(path || '');
+    if (!path) return '';
+    if (/^(https?:)?\/\//i.test(path) || path.startsWith('data:')) return path;
+    if (path.startsWith('/')) return path;
+    return SITE_BASE + '/' + path.replace(/^\/+/, '');
+}
 
 function openAddProject() {
     document.getElementById('projectModalTitle').textContent = 'Add Project';
@@ -167,12 +183,13 @@ function editProject(p) {
     document.getElementById('projDesc').value    = p.description;
     document.getElementById('projFullDesc').value = p.full_description || '';
     document.getElementById('projTeam').value    = p.team_members || '';
+    document.getElementById('projMentors').value = p.mentors || '';
     document.getElementById('projTech').value    = p.technologies || '';
     document.getElementById('projGithub').value  = p.github_link || '';
     document.getElementById('projOrder').value   = p.display_order;
     if (p.cover_image) {
         const img = document.getElementById('projImgPreview');
-        img.src = p.cover_image; img.style.display = 'block';
+        img.src = assetUrl(p.cover_image); img.style.display = 'block';
     }
     openModal('projectModal');
 }
