@@ -187,6 +187,27 @@ CREATE TABLE IF NOT EXISTS `events` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ─── Contact Info ─────────────────────────────────────────────
+SOURCE database/event_seed_content.sql;
+
+CREATE TABLE IF NOT EXISTS `club_activities` (
+  `id`                INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `title`             VARCHAR(200) NOT NULL,
+  `slug`              VARCHAR(220) NOT NULL,
+  `activity_date`     DATE         NOT NULL,
+  `description`       TEXT         NOT NULL,
+  `content`           LONGTEXT     NOT NULL,
+  `cover_image`       VARCHAR(255) NULL DEFAULT NULL,
+  `gallery_images`    LONGTEXT     NULL DEFAULT NULL,
+  `registration_link` VARCHAR(500) NULL DEFAULT NULL,
+  `created_at`        TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at`        TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_club_activity_slug` (`slug`),
+  KEY `idx_club_activity_date` (`activity_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+SOURCE database/activity_seed_content.sql;
+
 CREATE TABLE IF NOT EXISTS `contact_info` (
   `id`         INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `key_name`   VARCHAR(100) NOT NULL,

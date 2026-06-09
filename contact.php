@@ -33,9 +33,6 @@ public_header('Contact', 'contact');
                                 <img src="<?= public_h($image) ?>" alt="<?= public_h($label) ?>">
                             </a>
                             <h3><?= public_h($heading) ?></h3>
-                            <?php if ($key === 'email'): ?>
-                                <p class="contact-action-detail"><?= public_h($contacts['email']['value'] ?? 'hack.kuet.club@gmail.com') ?></p>
-                            <?php endif; ?>
                         </div>
                     <?php endforeach; ?>
                 </div>

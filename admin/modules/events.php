@@ -7,6 +7,14 @@ require_admin();
 $db     = get_db();
 $events = $db->query("SELECT * FROM events ORDER BY event_date DESC")->fetchAll();
 
+function admin_event_asset_url(?string $path): string {
+    $path = trim((string) $path);
+    if ($path === '' || preg_match('#^(https?:)?//#i', $path) || str_starts_with($path, '/')) {
+        return $path;
+    }
+    return BASE_URL . '/' . ltrim($path, '/');
+}
+
 $pageTitle = 'Events';
 require_once __DIR__ . '/../includes/header.php';
 ?>
@@ -55,7 +63,7 @@ require_once __DIR__ . '/../includes/header.php';
                             <tr data-status="<?= $ev['status'] ?>" data-type="<?= $ev['event_type'] ?>">
                                 <td>
                                     <div class="flex-cell">
-                                        <?php if ($ev['cover_image']): ?><img src="<?= h($ev['cover_image']) ?>" class="thumb" alt=""><?php endif; ?>
+                                        <?php if ($ev['cover_image']): ?><img src="<?= h(admin_event_asset_url($ev['cover_image'])) ?>" class="thumb" alt=""><?php endif; ?>
                                         <strong><?= h($ev['title']) ?></strong>
                                     </div>
                                 </td>
@@ -173,6 +181,15 @@ require_once __DIR__ . '/../includes/header.php';
 <div id="toast-container"></div>
 <script>
 const CSRF = '<?= csrf_token() ?>';
+const SITE_BASE = '<?= BASE_URL ?>';
+
+function assetUrl(path) {
+    path = String(path || '');
+    if (!path) return '';
+    if (/^(https?:)?\/\//i.test(path) || path.startsWith('data:')) return path;
+    if (path.startsWith('/')) return path;
+    return SITE_BASE + '/' + path.replace(/^\/+/, '');
+}
 
 function openAddEvent() {
     document.getElementById('eventModalTitle').textContent = 'Add Event';
@@ -196,7 +213,7 @@ function editEvent(ev) {
     document.getElementById('evRegLink').value  = ev.registration_link || '';
     if (ev.cover_image) {
         const img = document.getElementById('evImgPreview');
-        img.src = ev.cover_image; img.style.display = 'block';
+        img.src = assetUrl(ev.cover_image); img.style.display = 'block';
     }
     openModal('eventModal');
 }
