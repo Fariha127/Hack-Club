@@ -152,15 +152,11 @@ require_once __DIR__ . '/../includes/header.php';
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>First Image / Cover</label>
+                        <label>Blog Image / Cover</label>
                         <input type="file" name="cover_image" accept="image/*" id="blogImg">
-                        <img id="blogImgPreview" class="blog-edit-preview" src="" style="display:none" alt="First image preview">
+                        <img id="blogImgPreview" class="blog-edit-preview" src="" style="display:none" alt="Blog image preview">
                     </div>
-                    <div class="form-group">
-                        <label>Second Image</label>
-                        <input type="file" name="image_2" accept="image/*" id="blogImg2">
-                        <img id="blogImg2Preview" class="blog-edit-preview" src="" style="display:none" alt="Second image preview">
-                    </div>
+                    <div class="form-group"></div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
@@ -212,9 +208,6 @@ function newBlog() {
     const prev = document.getElementById('blogImgPreview');
     prev.src = '';
     prev.style.display = 'none';
-    const prev2 = document.getElementById('blogImg2Preview');
-    prev2.src = '';
-    prev2.style.display = 'none';
     document.getElementById('blogStatus').value = 'pending';
     openModal('addBlogModal');
 }
@@ -232,7 +225,6 @@ function viewBlog(b) {
         </div>
         <hr style="margin:16px 0;border-color:var(--border)">
         ${b.cover_image ? `<img src="${escapeHtml(assetUrl(b.cover_image))}" style="max-width:100%;border-radius:8px;margin-bottom:16px">` : ''}
-        ${b.image_2 ? `<img src="${escapeHtml(assetUrl(b.image_2))}" style="max-width:100%;border-radius:8px;margin-bottom:16px">` : ''}
         <div style="white-space:pre-wrap;line-height:1.7">${escapeHtml(b.content)}</div>
     `;
     openModal('viewBlogModal');
@@ -255,12 +247,6 @@ function editBlog(b) {
         prev.src = assetUrl(b.cover_image); prev.style.display = 'block';
     } else {
         prev.src = ''; prev.style.display = 'none';
-    }
-    const prev2 = document.getElementById('blogImg2Preview');
-    if (b.image_2) {
-        prev2.src = assetUrl(b.image_2); prev2.style.display = 'block';
-    } else {
-        prev2.src = ''; prev2.style.display = 'none';
     }
     openModal('addBlogModal');
 }
@@ -301,15 +287,6 @@ document.getElementById('blogForm').addEventListener('submit', function(e) {
 
 document.getElementById('blogImg').addEventListener('change', function() {
     const prev = document.getElementById('blogImgPreview');
-    if(this.files[0]){
-        const reader = new FileReader();
-        reader.onload = e => { prev.src = e.target.result; prev.style.display='block'; };
-        reader.readAsDataURL(this.files[0]);
-    }
-});
-
-document.getElementById('blogImg2').addEventListener('change', function() {
-    const prev = document.getElementById('blogImg2Preview');
     if(this.files[0]){
         const reader = new FileReader();
         reader.onload = e => { prev.src = e.target.result; prev.style.display='block'; };

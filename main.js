@@ -27,6 +27,16 @@
                     return;
                 }
 
+                var targetUrl;
+                try {
+                    targetUrl = new URL(href, window.location.href);
+                    if (targetUrl.pathname === window.location.pathname && targetUrl.hash) {
+                        return;
+                    }
+                } catch (error) {
+                    targetUrl = null;
+                }
+
                 if (link.target === "_blank" || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) {
                     return;
                 }
@@ -56,10 +66,60 @@
     function setActiveNavLink() {
         var currentPage = window.location.pathname.split("/").pop() || "home.php";
         var navLinks = document.querySelectorAll("nav a");
+        var sectionIds = ["home", "about", "events", "projects", "blogs", "contact"];
+        var sections = sectionIds.map(function (id) {
+            return document.getElementById(id);
+        }).filter(Boolean);
+
+        function linkTargetId(link) {
+            var href = link.getAttribute("href") || "";
+            var hashIndex = href.indexOf("#");
+            if (hashIndex === -1) {
+                return href === currentPage ? "home" : "";
+            }
+            return href.slice(hashIndex + 1);
+        }
+
+        function activate(id) {
+            navLinks.forEach(function (link) {
+                var isActive = linkTargetId(link) === id;
+                link.classList.toggle("active", isActive);
+                if (isActive) {
+                    link.setAttribute("aria-current", "page");
+                } else {
+                    link.removeAttribute("aria-current");
+                }
+            });
+        }
+
+        if (sections.length) {
+            function updateFromScroll() {
+                var headerOffset = 120;
+                var activeId = sections[0].id;
+
+                sections.forEach(function (section) {
+                    if (section.getBoundingClientRect().top <= headerOffset) {
+                        activeId = section.id;
+                    }
+                });
+
+                activate(activeId);
+            }
+
+            updateFromScroll();
+            window.addEventListener("scroll", updateFromScroll, { passive: true });
+            window.addEventListener("hashchange", function () {
+                var id = (window.location.hash || "#home").slice(1);
+                if (document.getElementById(id)) {
+                    activate(id);
+                }
+            });
+            return;
+        }
 
         navLinks.forEach(function (link) {
             var href = link.getAttribute("href");
-            var isActive = href === currentPage;
+            var isActive = href === currentPage || href === currentPage + "#home";
             link.classList.toggle("active", isActive);
             if (isActive) {
                 link.setAttribute("aria-current", "page");
@@ -107,7 +167,7 @@
     }
 
     function setupRevealAnimation() {
-        var revealTargets = document.querySelectorAll(".hero, .card, .timeline-item, .team-card, .slider");
+        var revealTargets = document.querySelectorAll(".card, .timeline-item, .team-card, .slider");
         if (!revealTargets.length) {
             return;
         }

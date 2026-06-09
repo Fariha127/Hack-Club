@@ -1,6 +1,6 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: blogs.php#submit-blog');
+    header('Location: home.php#submit-blog');
     exit;
 }
 
@@ -13,7 +13,7 @@ function blog_clean(string $value): string {
 }
 
 function blog_redirect(string $status): void {
-    header('Location: blogs.php?submission=' . $status . '#submit-blog');
+    header('Location: home.php?submission=' . $status . '#submit-blog');
     exit;
 }
 
@@ -65,10 +65,8 @@ if ($name === '' || $university === '' || $department === '' || $title === '' ||
 }
 
 $image1 = blog_upload($_FILES['image_1'] ?? []);
-$image2 = blog_upload($_FILES['image_2'] ?? []);
-if (!$image1 || !$image2) {
+if (!$image1) {
     if ($image1) delete_file($image1);
-    if ($image2) delete_file($image2);
     blog_redirect('error');
 }
 
@@ -79,13 +77,12 @@ try {
     $author = $name . ', ' . $department;
 
     $stmt = $db->prepare(
-        "INSERT INTO blogs (title, slug, author_name, author_university, author_department, content, excerpt, cover_image, image_2, tags, status)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')"
+        "INSERT INTO blogs (title, slug, author_name, author_university, author_department, content, excerpt, cover_image, tags, status)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')"
     );
-    $stmt->execute([$title, $slug, $author, $university, $department, $content, $excerpt, $image1, $image2, $tags]);
+    $stmt->execute([$title, $slug, $author, $university, $department, $content, $excerpt, $image1, $tags]);
 } catch (Throwable $e) {
     delete_file($image1);
-    delete_file($image2);
     blog_redirect('error');
 }
 

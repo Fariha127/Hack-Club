@@ -7,6 +7,14 @@ require_admin();
 $db       = get_db();
 $projects = $db->query("SELECT * FROM projects ORDER BY display_order ASC, created_at DESC")->fetchAll();
 
+function admin_project_asset_url(?string $path): string {
+    $path = trim((string) $path);
+    if ($path === '' || preg_match('#^(https?:)?//#i', $path) || str_starts_with($path, '/')) {
+        return $path;
+    }
+    return BASE_URL . '/' . ltrim($path, '/');
+}
+
 $pageTitle = 'Projects';
 require_once __DIR__ . '/../includes/header.php';
 ?>
@@ -47,7 +55,7 @@ require_once __DIR__ . '/../includes/header.php';
                                 <td class="muted"><?= $p['display_order'] ?></td>
                                 <td>
                                     <div class="flex-cell">
-                                        <?php if ($p['cover_image']): ?><img src="<?= h($p['cover_image']) ?>" class="thumb" alt=""><?php endif; ?>
+                                        <?php if ($p['cover_image']): ?><img src="<?= h(admin_project_asset_url($p['cover_image'])) ?>" class="thumb" alt=""><?php endif; ?>
                                         <strong><?= h($p['title']) ?></strong>
                                     </div>
                                 </td>
@@ -109,10 +117,6 @@ require_once __DIR__ . '/../includes/header.php';
                     <label>Short Description *</label>
                     <textarea name="description" id="projDesc" rows="3" required></textarea>
                 </div>
-                <div class="form-group">
-                    <label>Full Description</label>
-                    <textarea name="full_description" id="projFullDesc" rows="6"></textarea>
-                </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label>Team Members</label>
@@ -132,18 +136,15 @@ require_once __DIR__ . '/../includes/header.php';
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>GitHub Link</label>
-                        <input type="url" name="github_link" id="projGithub" placeholder="https://github.com/…">
-                    </div>
-                    <div class="form-group">
                         <label>Display Order</label>
                         <input type="number" name="display_order" id="projOrder" value="0" min="0">
                     </div>
+                    <div class="form-group"></div>
                 </div>
                 <div class="form-group">
                     <label>Cover Image</label>
                     <input type="file" name="cover_image" accept="image/*" id="projImg">
-                    <img id="projImgPreview" src="" style="display:none;max-height:100px;margin-top:8px;border-radius:8px">
+                    <img id="projImgPreview" class="modal-image-preview" src="" style="display:none" alt="Project cover preview">
                 </div>
             </div>
             <div class="modal-footer">
@@ -181,11 +182,9 @@ function editProject(p) {
     document.getElementById('projTitle').value   = p.title;
     document.getElementById('projStatus').value  = p.project_status;
     document.getElementById('projDesc').value    = p.description;
-    document.getElementById('projFullDesc').value = p.full_description || '';
     document.getElementById('projTeam').value    = p.team_members || '';
     document.getElementById('projMentors').value = p.mentors || '';
     document.getElementById('projTech').value    = p.technologies || '';
-    document.getElementById('projGithub').value  = p.github_link || '';
     document.getElementById('projOrder').value   = p.display_order;
     if (p.cover_image) {
         const img = document.getElementById('projImgPreview');
@@ -233,3 +232,4 @@ document.getElementById('statusFilter').addEventListener('change', function() {
 </script>
 <script src="<?= BASE_URL ?>/admin/js/admin.js"></script>
 </body></html>
+

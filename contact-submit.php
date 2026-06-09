@@ -1,6 +1,6 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: contact.php');
+    header('Location: home.php#contact');
     exit;
 }
 
@@ -9,7 +9,7 @@ function contact_clean(string $value): string {
 }
 
 function contact_redirect(string $status): void {
-    header('Location: contact.php?contact=' . $status);
+    header('Location: home.php?contact=' . $status . '#contact');
     exit;
 }
 

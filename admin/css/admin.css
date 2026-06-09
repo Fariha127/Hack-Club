@@ -722,6 +722,29 @@ input, select, textarea { font-family: var(--font); font-size: 0.9rem; }
     overflow: hidden;
 }
 
+.event-admin-controls {
+    margin-bottom: 16px;
+}
+
+.event-admin-section {
+    margin-bottom: 20px;
+}
+
+.section-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.section-heading h2 {
+    font-size: 1rem;
+    line-height: 1.25;
+    margin-bottom: 4px;
+}
+
 #addBlogModal .modal-body {
     flex: 1;
     min-height: 0;
@@ -733,6 +756,51 @@ input, select, textarea { font-family: var(--font); font-size: 0.9rem; }
 #addBlogModal .modal-footer {
     flex-shrink: 0;
     background: var(--surface);
+}
+
+#projectModal .modal,
+#eventModal .modal,
+#activityModal .modal {
+    height: calc(100dvh - 40px);
+    max-height: calc(100dvh - 40px);
+}
+
+#projectModal form,
+#eventModal form,
+#activityModal form {
+    min-height: 0;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#projectModal .modal-body,
+#eventModal .modal-body,
+#activityModal .modal-body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-bottom: 32px;
+}
+
+#projectModal .modal-footer,
+#eventModal .modal-footer,
+#activityModal .modal-footer {
+    flex-shrink: 0;
+    background: var(--surface);
+}
+
+.modal-image-preview {
+    width: 100%;
+    height: clamp(180px, 28vh, 300px);
+    margin-top: 10px;
+    object-fit: contain;
+    object-position: center;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
 }
 
 #addBlogModal .blog-edit-preview {

@@ -5,98 +5,400 @@ $contacts = public_contact_info();
 $email = $contacts['email']['value'] ?? 'hack.kuet.club@gmail.com';
 $facebookPage = $contacts['facebook_page']['value'] ?? '';
 $facebookGroup = $contacts['facebook_group']['value'] ?? '';
-public_header('Home', 'home');
+$messageStatus = $_GET['contact'] ?? '';
+$submissionStatus = $_GET['submission'] ?? '';
+
+$executives = public_rows("SELECT * FROM executives WHERE is_active = 1 ORDER BY display_order ASC, created_at ASC");
+$events = public_rows("SELECT * FROM events WHERE status != 'cancelled' ORDER BY event_date DESC, created_at DESC");
+$activities = public_rows("SELECT * FROM club_activities ORDER BY activity_date DESC, created_at DESC");
+$projects = public_rows("SELECT * FROM projects ORDER BY display_order ASC, created_at DESC");
+$blogs = public_rows("SELECT * FROM blogs WHERE status = 'published' ORDER BY COALESCE(published_at, submitted_at) DESC");
+
+$upcomingEvents = [];
+$previousEvents = [];
+foreach ($events as $event) {
+    $isPast = in_array($event['status'], ['completed'], true) || strtotime($event['event_date']) < strtotime(date('Y-m-d'));
+    if ($isPast) {
+        $previousEvents[] = $event;
+    } else {
+        $upcomingEvents[] = $event;
+    }
+}
+usort($upcomingEvents, fn($a, $b) => strcmp((string) $a['event_date'], (string) $b['event_date']));
+usort($previousEvents, fn($a, $b) => strcmp((string) $b['event_date'], (string) $a['event_date']));
+
+function portfolio_date(?string $date, string $format = 'D, j M Y'): string {
+    $time = strtotime((string) $date);
+    return $time ? date($format, $time) : (string) $date;
+}
+
+function portfolio_label(array $event): string {
+    return ($event['event_type'] ?? '') === 'workshop' ? 'Workshop' : 'Event';
+}
+
+function portfolio_paragraphs(?string $text): void {
+    foreach (preg_split('/\R{2,}/', trim((string) $text)) as $paragraph) {
+        if (trim($paragraph) !== '') {
+            echo '<p>' . nl2br(public_h($paragraph)) . '</p>';
+        }
+    }
+}
+
+$contactIcons = [
+    'email' => ['Mail us!', 'Email icon', 'email.jpg', 'mailto:' . $email],
+    'facebook_page' => ['Follow our facebook page!', 'Facebook page image', 'facebook-page.jpg', $facebookPage],
+    'facebook_group' => ['Join on our facebook group!', 'Facebook group image', 'facebook-group.jpg', $facebookGroup],
+    'address' => ['Visit our club!', 'Address image', 'address.jpg', 'https://maps.app.goo.gl/aqtLwX2DVue4XFGp6'],
+];
+
+$teamGroups = [
+    'Mentors' => array_values(array_filter($executives, fn($person) => ($person['category'] ?? '') === 'moderator')),
+    'Presidents' => array_values(array_filter($executives, fn($person) => ($person['category'] ?? '') === 'president')),
+    'Vice Presidents' => array_values(array_filter($executives, fn($person) => ($person['category'] ?? '') === 'vice_president')),
+];
+
+public_header('Portfolio', 'home');
 ?>
 
-    <div class="slider" aria-roledescription="carousel">
-        <div class="slides">
-            <div class="slide"><img src="Picture 1.jpg" alt="Members soldering in a workshop"></div>
-            <div class="slide"><img src="Picture 3.jpg" alt="Prototype rover on a test field"></div>
-            <div class="slide"><img src="Picture 2.jpg" alt="PCB assembly and inspection"></div>
-        </div>
-        <button class="slider-prev" aria-label="Previous slide">&lsaquo;</button>
-        <button class="slider-next" aria-label="Next slide">&rsaquo;</button>
-        <div class="slider-dots" aria-hidden="false"></div>
-    </div>
-
-    <main class="container">
-        <section class="hero">
-            <p class="eyebrow">Hardware Acceleration Club</p>
-            <h1>Designing, building, and accelerating hardware innovation at KUET.</h1>
-            <p class="lead">HACK is a collaborative engineering community where students turn ambitious ideas into tested systems through hands-on learning, project sprints, and team mentorship.</p>
-            <div class="hero-actions">
-                <button class="btn membership-open" id="membership-open" type="button">Become a Member</button>
+    <section class="portfolio-section portfolio-home" id="home">
+        <div class="slider" aria-roledescription="carousel">
+            <div class="slides">
+                <div class="slide"><img src="Picture 1.jpg" alt="Members soldering in a workshop"></div>
+                <div class="slide"><img src="Picture 3.jpg" alt="Prototype rover on a test field"></div>
+                <div class="slide"><img src="Picture 2.jpg" alt="PCB assembly and inspection"></div>
             </div>
-            <p id="membership-status" class="form-status membership-status" aria-live="polite"></p>
+            <button class="slider-prev" aria-label="Previous slide">&lsaquo;</button>
+            <button class="slider-next" aria-label="Next slide">&rsaquo;</button>
+            <div class="slider-dots" aria-hidden="false"></div>
+        </div>
+
+        <div class="container">
+            <section class="hero">
+                <p class="eyebrow">Hardware Acceleration Club</p>
+                <h1>Designing, building, and accelerating hardware innovation at KUET.</h1>
+                <p class="lead">HACK is a collaborative engineering community where students turn ambitious ideas into tested systems through hands-on learning, project sprints, workshops, and team mentorship.</p>
+                <div class="hero-actions">
+                    <button class="btn membership-open" id="membership-open" type="button">Become a Member</button>
+                </div>
+                <p id="membership-status" class="form-status membership-status" aria-live="polite"></p>
+            </section>
+
+            <section class="section">
+                <div class="grid three">
+                    <article class="card">
+                        <h3>Learn by Building</h3>
+                        <p>Work directly with microcontrollers, sensors, control systems, and PCB workflows from week one.</p>
+                    </article>
+                    <article class="card">
+                        <h3>Compete and Collaborate</h3>
+                        <p>Join multidisciplinary teams for robotics, IoT, and embedded competitions across campus and beyond.</p>
+                    </article>
+                    <article class="card">
+                        <h3>Grow with Mentorship</h3>
+                        <p>Senior members provide guidance on architecture, debugging strategy, and project planning.</p>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <main class="container portfolio-main">
+        <section class="hero portfolio-section" id="about">
+            <p class="eyebrow">Who We Are</p>
+            <h1>Hardware Acceleration Club of KUET builds practical engineers.</h1>
+            <p class="lead">We are a student-led community where curiosity meets fabrication. From embedded systems to rover control boards, HACK helps members move from diagrams to deployable hardware.</p>
         </section>
 
         <section class="section">
             <div class="grid three">
                 <article class="card">
-                    <h3>Learn by Building</h3>
-                    <p>Work directly with microcontrollers, sensors, control systems, and PCB workflows from week one.</p>
+                    <h3>Mission</h3>
+                    <p>Create a high-energy environment where students learn by building, debugging, and showcasing impactful hardware systems.</p>
                 </article>
                 <article class="card">
-                    <h3>Compete and Collaborate</h3>
-                    <p>Join multidisciplinary teams for robotics and IoT competitions across campus and beyond.</p>
+                    <h3>Vision</h3>
+                    <p>Develop a generation of KUET innovators capable of shipping reliable, efficient, and scalable hardware products.</p>
                 </article>
                 <article class="card">
-                    <h3>Grow with Mentorship</h3>
-                    <p>Senior members provide guidance on architecture, debugging strategy, and project planning.</p>
+                    <h3>Culture</h3>
+                    <p>Open collaboration, rapid experimentation, and mentorship-first learning across batches and disciplines.</p>
                 </article>
             </div>
+        </section>
+
+        <section class="section team-section">
+            <h2>Our Team</h2>
+            <p class="lead">Leadership and moderators maintained from the admin dashboard.</p>
+            <?php if (empty($executives)): ?>
+                <?php public_empty('Active executives added in the admin dashboard will appear here.'); ?>
+            <?php endif; ?>
+            <?php foreach ($teamGroups as $groupTitle => $people): ?>
+                <?php if (empty($people)) continue; ?>
+                <div class="team-group">
+                    <h3 class="team-group-title"><?= public_h($groupTitle) ?></h3>
+                    <div class="team-grid">
+                        <?php foreach ($people as $person): ?>
+                            <article class="team-card card">
+                                <?php if (!empty($person['photo'])): ?>
+                                    <img src="<?= public_h($person['photo']) ?>" alt="<?= public_h($person['name']) ?>">
+                                <?php endif; ?>
+                                <h3><?= public_h($person['name']) ?></h3>
+                                <p><?= public_h($person['role']) ?></p>
+                                <?php if (!empty($person['department'])): ?>
+                                    <p class="meta"><?= public_h($person['department']) ?></p>
+                                <?php endif; ?>
+                            </article>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+        </section>
+
+        <section class="hero portfolio-section" id="events">
+            <p class="eyebrow">Events Calendar</p>
+            <h1>Past wins, future plans, and the workshops that connect them.</h1>
+            <p class="lead">Events, workshops, and club activities are collected here as a visual portfolio with images, dates, titles, and short descriptions.</p>
+        </section>
+
+        <section class="section event-section">
+            <h2>Upcoming Events and Workshops</h2>
+            <div class="event-grid">
+                <?php if (empty($upcomingEvents)): ?>
+                    <?php public_empty('Stay tuned for upcoming HACK KUET events, workshops, and hands-on learning sessions. New announcements will appear here as soon as they are scheduled.'); ?>
+                <?php endif; ?>
+                <?php foreach ($upcomingEvents as $event): ?>
+                    <article class="event-card">
+                        <?php if (!empty($event['cover_image'])): ?>
+                            <img class="event-thumb" src="<?= public_h($event['cover_image']) ?>" alt="<?= public_h($event['title']) ?>">
+                        <?php endif; ?>
+                        <div class="event-card-body">
+                            <div class="event-card-topline">
+                                <span class="event-label"><?= public_h(portfolio_label($event)) ?></span>
+                                <span class="event-date"><?= public_h(portfolio_date($event['event_date'])) ?></span>
+                            </div>
+                            <h3><?= public_h($event['title']) ?></h3>
+                            <p><?= public_h($event['description']) ?></p>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+        </section>
+
+        <section class="section event-section">
+            <h2>Club Activities</h2>
+            <div class="event-grid activity-grid">
+                <?php foreach ($activities as $activity): ?>
+                    <article class="event-card activity-card">
+                        <?php if (!empty($activity['cover_image'])): ?>
+                            <img class="event-thumb" src="<?= public_h($activity['cover_image']) ?>" alt="<?= public_h($activity['title']) ?>">
+                        <?php endif; ?>
+                        <div class="event-card-body">
+                            <span class="event-date"><?= public_h(portfolio_date($activity['activity_date'])) ?></span>
+                            <h3><?= public_h($activity['title']) ?></h3>
+                            <div class="activity-card-content">
+                                <p><?= public_h($activity['description']) ?></p>
+                            </div>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+        </section>
+
+        <section class="section event-section">
+            <h2>Previous Events and Workshops</h2>
+            <div class="event-grid previous-events-grid">
+                <?php foreach ($previousEvents as $event): ?>
+                    <article class="event-card">
+                        <?php if (!empty($event['cover_image'])): ?>
+                            <img class="event-thumb" src="<?= public_h($event['cover_image']) ?>" alt="<?= public_h($event['title']) ?>">
+                        <?php endif; ?>
+                        <div class="event-card-body">
+                            <div class="event-card-topline">
+                                <span class="event-label"><?= public_h(portfolio_label($event)) ?></span>
+                                <span class="event-date"><?= public_h(portfolio_date($event['event_date'])) ?></span>
+                            </div>
+                            <h3><?= public_h($event['title']) ?></h3>
+                            <p><?= public_h($event['description']) ?></p>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+        </section>
+
+        <section class="hero portfolio-section" id="projects">
+            <p class="eyebrow">Project Bay</p>
+            <h1>Recent hardware systems built inside HACK.</h1>
+            <p class="lead">Projects are shown as portfolio entries with their image, summary, team members, departments, mentors, and tools.</p>
         </section>
 
         <section class="section">
-            <div class="grid two">
-                <article class="card">
-                    <span class="meta">What We Run</span>
-                    <h3>Weekly Workshop Tracks</h3>
-                    <p>Structured sessions covering embedded C, sensor interfacing, actuator control, and prototype validation.</p>
-                    <div class="chips">
-                        <span class="chip">Embedded Basics</span>
-                        <span class="chip">Rapid Prototyping</span>
-                        <span class="chip">System Testing</span>
-                    </div>
-                </article>
-                <article class="card">
-                    <span class="meta">Get Started</span>
-                    <h3>Join the Next Build Cycle</h3>
-                    <p>Explore current projects, attend an open session, and become part of a team building real hardware solutions.</p>
-                    <div class="chips">
-                        <span class="chip">Open Session</span>
-                        <span class="chip">Team Matching</span>
-                        <span class="chip">Demo Day</span>
-                    </div>
-                </article>
+            <div class="grid three">
+                <?php if (empty($projects)): ?>
+                    <?php public_empty('Projects added in the admin dashboard will appear here automatically.'); ?>
+                <?php endif; ?>
+                <?php foreach ($projects as $project): ?>
+                    <article class="card project-card">
+                        <?php if (!empty($project['cover_image'])): ?>
+                            <img class="project-thumb" src="<?= public_h($project['cover_image']) ?>" alt="<?= public_h($project['title']) ?> thumbnail" onerror="this.remove()">
+                        <?php endif; ?>
+                        <span class="meta"><?= public_h(ucfirst(str_replace('_', ' ', $project['project_status']))) ?></span>
+                        <h3><?= public_h($project['title']) ?></h3>
+                        <p><?= public_h($project['description']) ?></p>
+                        <div class="project-card-meta">
+                            <p><strong>Team:</strong> <?= public_h($project['team_members'] ?: 'Team information will be added soon.') ?></p>
+                            <p><strong>Mentors:</strong> <?= public_h($project['mentors'] ?? 'Mentor information will be added soon.') ?></p>
+                        </div>
+                        <?php $chips = public_chips($project['technologies'] ?? ''); ?>
+                        <?php if ($chips): ?>
+                            <div class="chips">
+                                <?php foreach (array_slice($chips, 0, 3) as $chip): ?>
+                                    <span class="chip"><?= public_h($chip) ?></span>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+                    </article>
+                <?php endforeach; ?>
             </div>
         </section>
 
-        <section class="section contact-section" id="contact">
-            <div class="contact-panel">
-                <p class="eyebrow contact-eyebrow">Contact and Community</p>
-                <h2>Stay connected with HACK KUET</h2>
-                <p class="contact-copy">For membership, mentorship, collaboration, or workshop enquiries, reach out to us at <?= public_h($email) ?>. You can also follow our Facebook page for updates and join the group for announcements, discussions, and community posts.</p>
-                <div class="contact-grid">
-                    <div class="contact-item">
-                        <span class="contact-label">Email</span>
-                        <a href="mailto:<?= public_h($email) ?>"><?= public_h($email) ?></a>
-                    </div>
-                    <?php if ($facebookPage): ?>
-                    <div class="contact-item">
-                        <span class="contact-label">Facebook Page</span>
-                        <a href="<?= public_h($facebookPage) ?>" target="_blank" rel="noopener noreferrer">Follow HACK KUET on Facebook</a>
-                    </div>
-                    <?php endif; ?>
-                    <?php if ($facebookGroup): ?>
-                    <div class="contact-item">
-                        <span class="contact-label">Facebook Group</span>
-                        <a href="<?= public_h($facebookGroup) ?>" target="_blank" rel="noopener noreferrer">Join the HACK KUET group</a>
-                    </div>
-                    <?php endif; ?>
-                </div>
-                <p class="contact-note">Please follow the page and kindly join the group so you do not miss event notices, project updates, and workshop schedules.</p>
+        <section class="hero portfolio-section" id="blogs">
+            <p class="eyebrow">Club Notes</p>
+            <h1>Build logs, reflections, and lessons from the workshop floor.</h1>
+            <p class="lead">Explore practical notes from our projects, workshops, and debugging sessions. These posts collect the small lessons, careful observations, and build decisions that help future teams learn faster.</p>
+        </section>
+
+        <section class="section">
+            <div class="blog-list">
+                <?php if (empty($blogs)): ?>
+                    <?php public_empty('Published blog posts from the admin dashboard will appear here.'); ?>
+                <?php endif; ?>
+                <?php foreach ($blogs as $blog): ?>
+                    <?php
+                        $author = trim((string) ($blog['author_name'] ?? ''));
+                        $department = trim((string) ($blog['author_department'] ?? ''));
+                        if ($department !== '' && stripos($author, $department) === false) {
+                            $author .= ', ' . $department;
+                        }
+                        $contentPreview = trim(preg_replace('/\s+/', ' ', strip_tags((string) ($blog['content'] ?? ''))));
+                    ?>
+                    <article class="card blog-card">
+                        <div class="blog-card-media">
+                            <?php if (!empty($blog['cover_image'])): ?>
+                                <img class="blog-thumb" src="<?= public_h($blog['cover_image']) ?>" alt="<?= public_h($blog['title']) ?> thumbnail" onerror="this.remove()">
+                            <?php endif; ?>
+                            <h3><?= public_h($blog['title']) ?></h3>
+                            <p class="blog-author">By <?= public_h($author) ?></p>
+                        </div>
+                        <div class="blog-card-main">
+                            <p><?= public_h($contentPreview) ?></p>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
             </div>
+        </section>
+
+        <section class="section" id="submit-blog">
+            <article class="card blog-submit-card">
+                <span class="meta">Write For HACK KUET</span>
+                <h2>Submit a blog for review</h2>
+                <p>Share a build log, debugging story, project lesson, or practical guide. Your submission will go to the admin dashboard as pending, and it will appear publicly after approval.</p>
+                <?php if ($submissionStatus === 'success'): ?>
+                    <p class="form-status success">Thanks, your blog was submitted for admin review.</p>
+                <?php elseif ($submissionStatus === 'error'): ?>
+                    <p class="form-status error">We could not save your blog. Please check all required fields and try again.</p>
+                <?php endif; ?>
+                <form class="form-wrap blog-submit-form" action="blog-submit.php" method="post" enctype="multipart/form-data">
+                    <div class="grid two">
+                        <div class="field">
+                            <label for="blog-name">Name</label>
+                            <input id="blog-name" name="name" type="text" placeholder="Your full name" required>
+                        </div>
+                        <div class="field">
+                            <label for="blog-university">University</label>
+                            <input id="blog-university" name="university" type="text" placeholder="Your university" required>
+                        </div>
+                    </div>
+                    <div class="grid two">
+                        <div class="field">
+                            <label for="blog-department">Department Name</label>
+                            <input id="blog-department" name="department" type="text" placeholder="CSE, EEE, ME..." required>
+                        </div>
+                        <div class="field">
+                            <label for="blog-tags">Tags</label>
+                            <input id="blog-tags" name="tags" type="text" placeholder="PCB, Firmware, Robotics" required>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="blog-title">Title of the Blog</label>
+                        <input id="blog-title" name="title" type="text" placeholder="Write a clear title" required>
+                    </div>
+                    <div class="field">
+                        <label for="blog-content">Content of the Blog</label>
+                        <textarea id="blog-content" name="content" rows="12" placeholder="Write your blog here..." required></textarea>
+                    </div>
+                    <div class="field">
+                        <label for="blog-image-1">Blog Image</label>
+                        <input id="blog-image-1" name="image_1" type="file" accept="image/*" required>
+                    </div>
+                    <button class="btn" type="submit">Submit Blog</button>
+                </form>
+            </article>
+        </section>
+
+        <section class="hero portfolio-section" id="contact">
+            <p class="eyebrow">Get In Touch</p>
+            <h1>Bring your idea. We will help you build it.</h1>
+            <p class="lead">Reach out for membership, mentorship, collaboration, or workshop invitations.</p>
+        </section>
+
+        <section class="section contact-shell">
+            <article class="card contact-panel contact-info-panel">
+                <div class="contact-panel-head">
+                    <h2>Get In Touch With Us Now!</h2>
+                </div>
+                <div class="contact-actions" aria-label="Contact links">
+                    <?php foreach ($contactIcons as $key => [$heading, $label, $image, $href]): ?>
+                        <?php if ($key !== 'address' && ($contacts[$key]['value'] ?? '') === '') continue; ?>
+                        <div class="contact-action">
+                            <a class="contact-icon-link" href="<?= public_h($href) ?>"<?= str_starts_with($href, 'mailto:') ? '' : ' target="_blank" rel="noopener noreferrer"' ?> aria-label="<?= public_h($label) ?>">
+                                <img src="<?= public_h($image) ?>" alt="<?= public_h($label) ?>">
+                            </a>
+                            <h3><?= public_h($heading) ?></h3>
+                            <?php if ($key === 'email'): ?>
+                                <p class="contact-action-detail"><?= public_h($email) ?></p>
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </article>
+
+            <article class="card contact-panel contact-form-panel">
+                <div class="contact-panel-head">
+                    <h2>Contact Us</h2>
+                </div>
+                <div class="contact-form-inner">
+                    <?php if ($messageStatus === 'success'): ?>
+                        <p class="form-status success">Thanks, your message was sent successfully.</p>
+                    <?php elseif ($messageStatus === 'error'): ?>
+                        <p class="form-status error">We could not save your message. Please try again.</p>
+                    <?php endif; ?>
+                    <form class="form-wrap" action="contact-submit.php" method="post">
+                        <div class="field">
+                            <label for="name">Full Name</label>
+                            <input id="name" name="name" type="text" placeholder="Your name" required>
+                        </div>
+                        <div class="field">
+                            <label for="email">Email Address</label>
+                            <input id="email" name="email" type="email" placeholder="you@example.com" required>
+                        </div>
+                        <div class="field">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" placeholder="Tell us what you want to build..."></textarea>
+                        </div>
+                        <button class="btn" type="submit">Submit</button>
+                    </form>
+                </div>
+            </article>
         </section>
     </main>
 

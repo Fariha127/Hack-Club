@@ -64,12 +64,12 @@ function public_date(?string $date): string {
 
 function public_header(string $title, string $active): void {
     $links = [
-        'home' => ['Home', 'home.php'],
-        'about' => ['About Us', 'about.php'],
-        'events' => ['Events', 'event.php'],
-        'projects' => ['Projects', 'project.php'],
-        'blogs' => ['Blogs', 'blogs.php'],
-        'contact' => ['Contact', 'contact.php'],
+        'home' => ['Home', 'home.php#home'],
+        'about' => ['About Us', 'home.php#about'],
+        'events' => ['Events', 'home.php#events'],
+        'projects' => ['Projects', 'home.php#projects'],
+        'blogs' => ['Blogs', 'home.php#blogs'],
+        'contact' => ['Contact', 'home.php#contact'],
     ];
     ?>
 <!DOCTYPE html>
@@ -88,15 +88,15 @@ function public_header(string $title, string $active): void {
         } catch (error) {
         }
     </script>
-    <link rel="stylesheet" href="style.css?v=events-workshops-8">
+    <link rel="stylesheet" href="style.css?v=portfolio-17">
     <script src="theme-toggle.js" defer></script>
-    <script src="main.js" defer></script>
+    <script src="main.js?v=portfolio-3" defer></script>
     <title><?= public_h($title) ?> | HACK KUET</title>
 </head>
 <body>
     <header class="site-header">
         <div class="container site-header-inner">
-            <a class="brand" href="home.php"><span></span>HACK - Hardware Acceleration Club of KUET</a>
+            <a class="brand" href="home.php#home"><span></span>HACK - Hardware Acceleration Club of KUET</a>
             <button class="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">Menu</button>
             <nav>
                 <?php foreach ($links as $key => [$label, $href]): ?>
@@ -122,7 +122,7 @@ function public_footer(string $text): void {
 function public_empty(string $message): void {
     ?>
     <article class="card">
-        <h3>No published items yet</h3>
+        <h3>More updates coming soon</h3>
         <p><?= public_h($message) ?></p>
     </article>
     <?php
