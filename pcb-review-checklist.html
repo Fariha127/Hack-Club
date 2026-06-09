@@ -14,7 +14,7 @@
         } catch (error) {
         }
     </script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=blog-images-2">
     <script src="theme-toggle.js" defer></script>
     <script src="main.js" defer></script>
     <title>PCB Review Checklist We Actually Use | HACK KUET</title>
@@ -40,12 +40,17 @@
         <section class="hero">
             <p class="eyebrow">March 2026</p>
             <h1>PCB Review Checklist We Actually Use</h1>
+            <p class="blog-byline">By Marjan Islam, EEE | Khulna University of Engineering and Technology</p>
             <p class="lead">A short pre-fabrication routine that catches layout, footprint, and assembly problems before the board leaves the bench.</p>
         </section>
 
         <section class="section">
             <article class="card">
                 <span class="meta">Design Review</span>
+                <div class="blog-gallery">
+                    <img src="pcb-review-checklist-1.jpg" alt="PCB layout review" onerror="this.remove()">
+                    <img src="pcb-review-checklist-2.jpg" alt="PCB assembly checklist" onerror="this.remove()">
+                </div>
                 <p>Our first pass is electrical. We check every power net, confirm the current path is realistic, and make sure trace widths match the load. If the board carries motors or other noisy loads, we verify the return path too. A clean schematic is not enough if the layout forces current to take a bad route.</p>
                 <p>The second pass is mechanical. That is where connector orientation, mounting holes, and silkscreen labels matter. If a connector can be flipped by accident, we fix that before fabrication. If a header is hidden under another part, we ask whether the assembly step will still be practical in a student lab with limited tools.</p>
                 <p>The final pass is boring but valuable: compare the BOM, footprints, and schematic pin numbers line by line. That is where swapped pads and mismatched package names usually show up. The goal is to make fabrication uneventful, because the best PCB review is the one that prevents a surprise later.</p>

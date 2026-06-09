@@ -88,7 +88,7 @@ function public_header(string $title, string $active): void {
         } catch (error) {
         }
     </script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=blog-images-2">
     <script src="theme-toggle.js" defer></script>
     <script src="main.js" defer></script>
     <title><?= public_h($title) ?> | HACK KUET</title>

@@ -6,7 +6,7 @@ require_admin();
 
 $db     = get_db();
 $tab    = $_GET['tab'] ?? 'submissions';
-$blogs  = $db->query("SELECT * FROM blogs ORDER BY submitted_at DESC")->fetchAll();
+$blogs  = $db->query("SELECT * FROM blogs ORDER BY COALESCE(published_at, submitted_at) DESC, id DESC")->fetchAll();
 
 $pageTitle = 'Blogs';
 require_once __DIR__ . '/../includes/header.php';
@@ -18,7 +18,7 @@ require_once __DIR__ . '/../includes/header.php';
             <button class="menu-toggle" id="menuToggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
             <div class="topbar-title">Blogs</div>
             <div class="topbar-actions">
-                <button class="btn btn-primary" onclick="openModal('addBlogModal')">+ New Blog</button>
+                <button class="btn btn-primary" onclick="newBlog()">+ New Blog</button>
                 <button class="theme-btn" id="themeToggle"><svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg><svg id="moonIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
             </div>
         </div>
@@ -40,7 +40,7 @@ require_once __DIR__ . '/../includes/header.php';
                 <div class="table-wrap">
                     <table class="data-table" id="blogTable">
                         <thead>
-                            <tr><th>#</th><th>Title</th><th>Author</th><th>Tags</th><th>Status</th><th>Submitted</th><th>Actions</th></tr>
+                            <tr><th>#</th><th>Title</th><th>Author</th><th>University</th><th>Tags</th><th>Status</th><th>Submitted</th><th>Actions</th></tr>
                         </thead>
                         <tbody>
                         <?php foreach ($blogs as $i => $b): ?>
@@ -48,6 +48,7 @@ require_once __DIR__ . '/../includes/header.php';
                                 <td class="muted"><?= $i + 1 ?></td>
                                 <td><strong><?= h(truncate($b['title'], 50)) ?></strong></td>
                                 <td><?= h($b['author_name']) ?></td>
+                                <td><?= h($b['author_university'] ?? '-') ?></td>
                                 <td><span class="tag-list"><?= h($b['tags'] ?? '—') ?></span></td>
                                 <td><?= status_badge($b['status']) ?></td>
                                 <td class="muted"><?= date('d M Y', strtotime($b['submitted_at'])) ?></td>
@@ -61,15 +62,17 @@ require_once __DIR__ . '/../includes/header.php';
                                             onclick="editBlog(<?= htmlspecialchars(json_encode($b), ENT_QUOTES) ?>)">
                                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                                         </button>
-                                        <?php if ($b['status'] === 'pending'): ?>
+                                        <?php if ($b['status'] !== 'published'): ?>
                                         <button class="btn-icon btn-success" title="Approve" onclick="reviewBlog(<?= $b['id'] ?>, 'publish')">
                                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg>
                                         </button>
+                                        <?php endif; ?>
+                                        <?php if ($b['status'] !== 'rejected'): ?>
                                         <button class="btn-icon btn-danger" title="Reject" onclick="reviewBlog(<?= $b['id'] ?>, 'reject')">
                                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                                         </button>
                                         <?php endif; ?>
-                                        <button class="btn-icon btn-danger" title="Delete" onclick="deleteBlog(<?= $b['id'] ?>, '<?= h($b['title']) ?>')">
+                                        <button class="btn-icon btn-danger" title="Delete" onclick="deleteBlog(<?= $b['id'] ?>, <?= htmlspecialchars(json_encode($b['title']), ENT_QUOTES) ?>)">
                                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3,6 5,6 21,6"/><path d="M19,6l-1,14a2,2,0,0,1-2,2H8a2,2,0,0,1-2-2L5,6"/><path d="M10,11v6"/><path d="M14,11v6"/><path d="M9,6V4a1,1,0,0,1,1-1h4a1,1,0,0,1,1,1v2"/></svg>
                                         </button>
                                     </div>
@@ -77,7 +80,7 @@ require_once __DIR__ . '/../includes/header.php';
                             </tr>
                         <?php endforeach; ?>
                         <?php if (empty($blogs)): ?>
-                            <tr><td colspan="7"><div class="empty-state">No blog posts yet.</div></td></tr>
+                            <tr><td colspan="8"><div class="empty-state">No blog posts yet.</div></td></tr>
                         <?php endif; ?>
                         </tbody>
                     </table>
@@ -125,6 +128,16 @@ require_once __DIR__ . '/../includes/header.php';
                         <input type="email" name="author_email" id="blogAuthorEmail">
                     </div>
                     <div class="form-group">
+                        <label>University</label>
+                        <input type="text" name="author_university" id="blogUniversity">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Department</label>
+                        <input type="text" name="author_department" id="blogDepartment">
+                    </div>
+                    <div class="form-group">
                         <label>Tags (comma-separated)</label>
                         <input type="text" name="tags" id="blogTags" placeholder="PCB, Firmware, IoT">
                     </div>
@@ -139,10 +152,17 @@ require_once __DIR__ . '/../includes/header.php';
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Cover Image</label>
+                        <label>First Image / Cover</label>
                         <input type="file" name="cover_image" accept="image/*" id="blogImg">
-                        <img id="blogImgPreview" src="" style="display:none;max-height:80px;margin-top:8px;border-radius:6px">
+                        <img id="blogImgPreview" class="blog-edit-preview" src="" style="display:none" alt="First image preview">
                     </div>
+                    <div class="form-group">
+                        <label>Second Image</label>
+                        <input type="file" name="image_2" accept="image/*" id="blogImg2">
+                        <img id="blogImg2Preview" class="blog-edit-preview" src="" style="display:none" alt="Second image preview">
+                    </div>
+                </div>
+                <div class="form-row">
                     <div class="form-group">
                         <label>Status</label>
                         <select name="status" id="blogStatus">
@@ -151,6 +171,7 @@ require_once __DIR__ . '/../includes/header.php';
                             <option value="rejected">Rejected</option>
                         </select>
                     </div>
+                    <div class="form-group"></div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -164,19 +185,55 @@ require_once __DIR__ . '/../includes/header.php';
 <div id="toast-container"></div>
 <script>
 const CSRF = '<?= csrf_token() ?>';
+const SITE_BASE = '<?= BASE_URL ?>';
+
+function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, char => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    }[char]));
+}
+
+function assetUrl(path) {
+    path = String(path || '');
+    if (!path) return '';
+    if (/^(https?:)?\/\//i.test(path) || path.startsWith('data:')) return path;
+    if (path.startsWith('/')) return path;
+    return SITE_BASE + '/' + path.replace(/^\/+/, '');
+}
+
+function newBlog() {
+    document.getElementById('blogModalTitle').textContent = 'Add Blog Post';
+    document.getElementById('blogForm').reset();
+    document.getElementById('blogId').value = '';
+    const prev = document.getElementById('blogImgPreview');
+    prev.src = '';
+    prev.style.display = 'none';
+    const prev2 = document.getElementById('blogImg2Preview');
+    prev2.src = '';
+    prev2.style.display = 'none';
+    document.getElementById('blogStatus').value = 'pending';
+    openModal('addBlogModal');
+}
 
 function viewBlog(b) {
     document.getElementById('viewBlogTitle').textContent = b.title;
     document.getElementById('viewBlogBody').innerHTML = `
         <div class="detail-grid">
-            <div class="detail-row"><span class="detail-label">Author</span><span class="detail-val">${b.author_name} ${b.author_email ? '('+b.author_email+')' : ''}</span></div>
-            <div class="detail-row"><span class="detail-label">Tags</span><span class="detail-val">${b.tags||'—'}</span></div>
-            <div class="detail-row"><span class="detail-label">Status</span><span class="detail-val">${b.status}</span></div>
-            <div class="detail-row"><span class="detail-label">Submitted</span><span class="detail-val">${b.submitted_at}</span></div>
+            <div class="detail-row"><span class="detail-label">Author</span><span class="detail-val">${escapeHtml(b.author_name)} ${b.author_email ? '('+escapeHtml(b.author_email)+')' : ''}</span></div>
+            <div class="detail-row"><span class="detail-label">University</span><span class="detail-val">${escapeHtml(b.author_university || '-')}</span></div>
+            <div class="detail-row"><span class="detail-label">Department</span><span class="detail-val">${escapeHtml(b.author_department || '-')}</span></div>
+            <div class="detail-row"><span class="detail-label">Tags</span><span class="detail-val">${escapeHtml(b.tags || '-')}</span></div>
+            <div class="detail-row"><span class="detail-label">Status</span><span class="detail-val">${escapeHtml(b.status)}</span></div>
+            <div class="detail-row"><span class="detail-label">Submitted</span><span class="detail-val">${escapeHtml(b.submitted_at)}</span></div>
         </div>
         <hr style="margin:16px 0;border-color:var(--border)">
-        ${b.cover_image ? `<img src="${b.cover_image}" style="max-width:100%;border-radius:8px;margin-bottom:16px">` : ''}
-        <div style="white-space:pre-wrap;line-height:1.7">${b.content}</div>
+        ${b.cover_image ? `<img src="${escapeHtml(assetUrl(b.cover_image))}" style="max-width:100%;border-radius:8px;margin-bottom:16px">` : ''}
+        ${b.image_2 ? `<img src="${escapeHtml(assetUrl(b.image_2))}" style="max-width:100%;border-radius:8px;margin-bottom:16px">` : ''}
+        <div style="white-space:pre-wrap;line-height:1.7">${escapeHtml(b.content)}</div>
     `;
     openModal('viewBlogModal');
 }
@@ -187,13 +244,23 @@ function editBlog(b) {
     document.getElementById('blogTitle').value  = b.title;
     document.getElementById('blogAuthor').value = b.author_name;
     document.getElementById('blogAuthorEmail').value = b.author_email || '';
+    document.getElementById('blogUniversity').value = b.author_university || '';
+    document.getElementById('blogDepartment').value = b.author_department || '';
     document.getElementById('blogTags').value   = b.tags || '';
     document.getElementById('blogExcerpt').value = b.excerpt || '';
     document.getElementById('blogContent').value = b.content;
     document.getElementById('blogStatus').value  = b.status;
+    const prev = document.getElementById('blogImgPreview');
     if (b.cover_image) {
-        const prev = document.getElementById('blogImgPreview');
-        prev.src = b.cover_image; prev.style.display = 'block';
+        prev.src = assetUrl(b.cover_image); prev.style.display = 'block';
+    } else {
+        prev.src = ''; prev.style.display = 'none';
+    }
+    const prev2 = document.getElementById('blogImg2Preview');
+    if (b.image_2) {
+        prev2.src = assetUrl(b.image_2); prev2.style.display = 'block';
+    } else {
+        prev2.src = ''; prev2.style.display = 'none';
     }
     openModal('addBlogModal');
 }
@@ -234,6 +301,15 @@ document.getElementById('blogForm').addEventListener('submit', function(e) {
 
 document.getElementById('blogImg').addEventListener('change', function() {
     const prev = document.getElementById('blogImgPreview');
+    if(this.files[0]){
+        const reader = new FileReader();
+        reader.onload = e => { prev.src = e.target.result; prev.style.display='block'; };
+        reader.readAsDataURL(this.files[0]);
+    }
+});
+
+document.getElementById('blogImg2').addEventListener('change', function() {
+    const prev = document.getElementById('blogImg2Preview');
     if(this.files[0]){
         const reader = new FileReader();
         reader.onload = e => { prev.src = e.target.result; prev.style.display='block'; };

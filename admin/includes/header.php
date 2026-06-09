@@ -9,7 +9,7 @@
     <script>
         try { if (localStorage.getItem('hack-theme') === 'dark') document.documentElement.classList.add('dark'); } catch(e) {}
     </script>
-    <link rel="stylesheet" href="<?= BASE_URL ?>/admin/css/admin.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/admin/css/admin.css?v=blog-preview-3">
     <script>window.BASE_URL = '<?= BASE_URL ?>';</script>
     <title><?= h($pageTitle ?? 'Dashboard') ?> | HACK Admin</title>
 </head>

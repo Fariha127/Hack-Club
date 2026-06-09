@@ -10,7 +10,13 @@ define('SESSION_TIMEOUT', 3600);
 if (!defined('BASE_URL')) {
     $__s = str_replace('\\', '/', $_SERVER['SCRIPT_NAME'] ?? '/');
     $__p = strpos($__s, '/admin');
-    define('BASE_URL', $__p !== false ? rtrim(substr($__s, 0, $__p), '/') : '');
+    if ($__p !== false) {
+        define('BASE_URL', rtrim(substr($__s, 0, $__p), '/'));
+    } else {
+        $__d = rtrim(dirname($__s), '/');
+        define('BASE_URL', $__d === '/' || $__d === '\\' ? '' : $__d);
+        unset($__d);
+    }
     unset($__s, $__p);
 }
 define('UPLOAD_BASE_URL', BASE_URL . '/admin/uploads/');

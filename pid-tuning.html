@@ -14,7 +14,7 @@
         } catch (error) {
         }
     </script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=blog-images-2">
     <script src="theme-toggle.js" defer></script>
     <script src="main.js" defer></script>
     <title>How We Tune PID for Fast Tracks | HACK KUET</title>
@@ -40,12 +40,17 @@
         <section class="hero">
             <p class="eyebrow">April 2026</p>
             <h1>How We Tune PID for Fast Tracks</h1>
+            <p class="blog-byline">By Sohan Ahmed, CSE | Khulna University of Engineering and Technology</p>
             <p class="lead">A practical tuning routine for line followers that need to stay quick on changing floors, batteries, and lighting.</p>
         </section>
 
         <section class="section">
             <article class="card">
                 <span class="meta">Field Notes</span>
+                <div class="blog-gallery">
+                    <img src="pid-tuning-1.jpg" alt="Line follower PID testing" onerror="this.remove()">
+                    <img src="pid-tuning-2.jpg" alt="Fast track tuning session" onerror="this.remove()">
+                </div>
                 <p>We tune in stages. First we check that the sensors read cleanly and the robot can follow the line at a very low gain. Then we increase proportional response until the robot reacts quickly, but not so aggressively that it starts to swing back and forth after every correction.</p>
                 <p>Once the base response is stable, we add only a small amount of integral correction. That part is easy to overdo, especially when the test track is too clean. In real runs, battery voltage drifts, the floor changes, and the robot sees slightly different reflectance every lap. The controller has to survive that, not just a perfect demo table.</p>
                 <p>We keep derivative gain conservative. If the hardware is already vibrating or the sensor reads with a bit of delay, too much D gain just makes the system chase noise. The best results usually come from a controller that is slightly less clever and much more predictable.</p>

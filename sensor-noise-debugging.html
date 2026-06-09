@@ -14,7 +14,7 @@
         } catch (error) {
         }
     </script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=blog-images-2">
     <script src="theme-toggle.js" defer></script>
     <script src="main.js" defer></script>
     <title>Debugging Sensor Noise in Real Labs | HACK KUET</title>
@@ -40,12 +40,17 @@
         <section class="hero">
             <p class="eyebrow">January 2026</p>
             <h1>Debugging Sensor Noise in Real Labs</h1>
+            <p class="blog-byline">By Abdur Rahim, CSE | Chittagong University of Engineering and Technology</p>
             <p class="lead">How we separate electrical problems from software problems when the signal starts jumping around.</p>
         </section>
 
         <section class="section">
             <article class="card">
                 <span class="meta">Troubleshooting</span>
+                <div class="blog-gallery">
+                    <img src="sensor-noise-debugging-1.jpg" alt="Sensor signal measurement" onerror="this.remove()">
+                    <img src="sensor-noise-debugging-2.jpg" alt="Sensor wiring debug bench" onerror="this.remove()">
+                </div>
                 <p>The fastest way to understand a noisy sensor is to measure the raw output before filtering anything in code. If the signal is unstable at the pin, the problem is usually wiring, grounding, or power quality. We look for loose jumpers, long leads, and shared supply paths that let one device disturb another.</p>
                 <p>Once the hardware looks sane, we focus on sampling. A bad sample rate can make a stable signal look chaotic, and a weak filter can hide the actual shape of the data. We prefer short, direct tests that isolate one variable at a time. That keeps us from guessing when the issue is really the timing window or the sensor’s response curve.</p>
                 <p>When the lab is noisy, the best fix is often simple: shorten the cable, add a ground reference, and give the sensor a cleaner power rail. Those changes are not exciting, but they usually do more than a complicated algorithm that is trying to rescue bad input.</p>

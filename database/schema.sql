@@ -66,9 +66,12 @@ CREATE TABLE IF NOT EXISTS `blogs` (
   `slug`         VARCHAR(220) NOT NULL,
   `author_name`  VARCHAR(100) NOT NULL,
   `author_email` VARCHAR(150) NULL DEFAULT NULL,
+  `author_university` VARCHAR(150) NULL DEFAULT NULL,
+  `author_department` VARCHAR(100) NULL DEFAULT NULL,
   `content`      LONGTEXT     NOT NULL,
   `excerpt`      TEXT         NULL DEFAULT NULL,
   `cover_image`  VARCHAR(255) NULL DEFAULT NULL,
+  `image_2`      VARCHAR(255) NULL DEFAULT NULL,
   `tags`         VARCHAR(500) NULL DEFAULT NULL,
   `status`       ENUM('pending','published','rejected') NOT NULL DEFAULT 'pending',
   `submitted_at` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -79,6 +82,28 @@ CREATE TABLE IF NOT EXISTS `blogs` (
   KEY `idx_blog_status` (`status`),
   CONSTRAINT `fk_blog_reviewer` FOREIGN KEY (`reviewed_by`) REFERENCES `admins` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `blogs` (`title`, `slug`, `author_name`, `author_email`, `author_university`, `author_department`, `content`, `excerpt`, `cover_image`, `tags`, `status`, `published_at`)
+VALUES
+('Common MCU Mistakes New Builders Make', 'mcu-mistakes', 'Sadia Jahan, CSE', NULL, 'Shahjalal University of Science and Technology', 'CSE', 'A practical note on the power, reset, pin mapping, and debugging checks new embedded builders should make before blaming firmware.', 'The small setup errors that waste the most time on early embedded projects, and how we catch them faster.', 'mcu-mistakes-1.jpg', 'MCU Basics, Debugging, Power', 'published', '2025-11-01 09:00:00'),
+('PCB Review Checklist We Actually Use', 'pcb-review-checklist', 'Marjan Islam, EEE', NULL, 'Khulna University of Engineering and Technology', 'EEE', 'A pre-fabrication checklist for reviewing current paths, connector orientation, footprints, BOMs, and assembly risks before a PCB leaves the bench.', 'A short pre-fabrication routine that catches layout, footprint, and assembly problems before the board leaves the bench.', 'pcb-review-checklist-1.jpg', 'PCB Design, Assembly, Checklist', 'published', '2026-03-01 09:00:00'),
+('Debugging Sensor Noise in Real Labs', 'sensor-noise-debugging', 'Abdur Rahim, CSE', NULL, 'Chittagong University of Engineering and Technology', 'CSE', 'A troubleshooting guide for separating electrical noise from software problems by measuring raw signals, checking grounding, and reviewing sampling behavior.', 'How we separate electrical problems from software problems when the signal starts jumping around.', 'sensor-noise-debugging-1.jpg', 'Sensors, Sampling, Filtering', 'published', '2026-01-01 09:00:00'),
+('How We Tune PID for Fast Tracks', 'pid-tuning', 'Sohan Ahmed, CSE', NULL, 'Khulna University of Engineering and Technology', 'CSE', 'A practical tuning routine for line followers, including proportional response, careful integral correction, and conservative derivative gain.', 'A practical tuning routine for line followers that need to stay quick on changing floors, batteries, and lighting.', 'pid-tuning-1.jpg', 'Control Systems, Tuning, Robotics', 'published', '2026-04-01 09:00:00'),
+('Firmware Architecture for Student Teams', 'firmware-architecture', 'Abed Hasan, EEE', NULL, 'Khulna University of Engineering and Technology', 'EEE', 'A simple firmware layering approach that separates drivers, services, and application logic so student teams can review and maintain embedded code together.', 'A simple structure that keeps embedded projects readable when multiple people are touching the same codebase.', 'firmware-architecture-1.jpg', 'Embedded C, Architecture, Code Review', 'published', '2026-02-01 09:00:00'),
+('From Prototype to Demo Day in 10 Days', 'demo-day-sprint', 'Sumaiya Islam, CSE', NULL, 'Khulna University of Engineering and Technology', 'CSE', 'A short sprint workflow for preparing reliable demos by focusing the story, assigning owners, integrating early, and rehearsing under time pressure.', 'A short sprint workflow for teams that need a reliable presentation without pretending the project is perfect.', 'demo-day-sprint-1.jpg', 'Planning, Integration, Demo Prep', 'published', '2025-12-01 09:00:00')
+ON DUPLICATE KEY UPDATE
+  `title` = VALUES(`title`),
+  `author_name` = VALUES(`author_name`),
+  `author_university` = VALUES(`author_university`),
+  `author_department` = VALUES(`author_department`),
+  `content` = VALUES(`content`),
+  `excerpt` = VALUES(`excerpt`),
+  `cover_image` = VALUES(`cover_image`),
+  `tags` = VALUES(`tags`),
+  `status` = VALUES(`status`),
+  `published_at` = VALUES(`published_at`);
+
+SOURCE database/blog_seed_content.sql;
 
 -- ─── Executives ───────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS `executives` (

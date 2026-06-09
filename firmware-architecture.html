@@ -14,7 +14,7 @@
         } catch (error) {
         }
     </script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=blog-images-2">
     <script src="theme-toggle.js" defer></script>
     <script src="main.js" defer></script>
     <title>Firmware Architecture for Student Teams | HACK KUET</title>
@@ -40,12 +40,17 @@
         <section class="hero">
             <p class="eyebrow">February 2026</p>
             <h1>Firmware Architecture for Student Teams</h1>
+            <p class="blog-byline">By Abed Hasan, EEE | Khulna University of Engineering and Technology</p>
             <p class="lead">A simple structure that keeps embedded projects readable when multiple people are touching the same codebase.</p>
         </section>
 
         <section class="section">
             <article class="card">
                 <span class="meta">Structure</span>
+                <div class="blog-gallery">
+                    <img src="firmware-architecture-1.jpg" alt="Firmware architecture notes" onerror="this.remove()">
+                    <img src="firmware-architecture-2.jpg" alt="Embedded code structure review" onerror="this.remove()">
+                </div>
                 <p>We split firmware into three layers. Drivers do the hardware-specific work. Services turn raw reads and writes into stable, meaningful operations. The application layer decides what the machine should do next. That separation keeps behavior predictable and makes it much easier for new members to understand where a change belongs.</p>
                 <p>The reason this works is that each layer has a narrow job. Drivers should not know about team strategy, and the application should not care which register a sensor uses. That rule keeps code review focused. If a change crosses layers, we stop and ask whether the interface is doing too much.</p>
                 <p>We also keep naming strict. A function should explain what it does without a long comment. A module should make its dependencies obvious. If a team can glance at the file tree and understand the system shape, they will spend less time tracing bugs and more time improving actual behavior.</p>

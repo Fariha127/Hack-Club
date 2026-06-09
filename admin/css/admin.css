@@ -709,6 +709,43 @@ input, select, textarea { font-family: var(--font); font-size: 0.9rem; }
     overflow-y: auto;
 }
 
+#addBlogModal .modal {
+    height: calc(100dvh - 40px);
+    max-height: calc(100dvh - 40px);
+}
+
+#addBlogModal form {
+    min-height: 0;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#addBlogModal .modal-body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-bottom: 32px;
+}
+
+#addBlogModal .modal-footer {
+    flex-shrink: 0;
+    background: var(--surface);
+}
+
+#addBlogModal .blog-edit-preview {
+    width: 100%;
+    height: clamp(180px, 24vh, 280px);
+    margin-top: 10px;
+    object-fit: contain;
+    object-position: center;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+}
+
 .modal-footer {
     padding: 16px 24px;
     border-top: 1px solid var(--border);
