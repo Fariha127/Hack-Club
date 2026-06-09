@@ -179,4 +179,18 @@ CREATE TABLE IF NOT EXISTS `contact_info` (
   CONSTRAINT `fk_contact_admin` FOREIGN KEY (`updated_by`) REFERENCES `admins` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `contact_messages` (
+  `id`           INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `full_name`    VARCHAR(100) NOT NULL,
+  `email`        VARCHAR(150) NOT NULL,
+  `message`      TEXT         NOT NULL,
+  `status`       ENUM('unread','read') NOT NULL DEFAULT 'unread',
+  `submitted_at` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `read_at`      TIMESTAMP    NULL DEFAULT NULL,
+  `read_by`      INT UNSIGNED NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_contact_message_status` (`status`),
+  CONSTRAINT `fk_contact_message_reader` FOREIGN KEY (`read_by`) REFERENCES `admins` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 SET FOREIGN_KEY_CHECKS = 1;

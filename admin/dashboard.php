@@ -14,6 +14,7 @@ $stats = [
     'projects'     => (int) $db->query("SELECT COUNT(*) FROM projects")->fetchColumn(),
     'events'       => (int) $db->query("SELECT COUNT(*) FROM events WHERE status='upcoming'")->fetchColumn(),
     'executives'   => (int) $db->query("SELECT COUNT(*) FROM executives WHERE is_active=1")->fetchColumn(),
+    'messages'     => (int) $db->query("SELECT COUNT(*) FROM contact_messages WHERE status='unread'")->fetchColumn(),
 ];
 
 // Recent applications
@@ -24,6 +25,9 @@ $recentBlogs = $db->query("SELECT * FROM blogs ORDER BY submitted_at DESC LIMIT 
 
 // Upcoming events
 $upcomingEvents = $db->query("SELECT * FROM events WHERE status='upcoming' ORDER BY event_date ASC LIMIT 3")->fetchAll();
+
+// Recent viewer messages
+$recentMessages = $db->query("SELECT * FROM contact_messages ORDER BY submitted_at DESC LIMIT 5")->fetchAll();
 
 $pageTitle = 'Dashboard';
 require_once __DIR__ . '/includes/header.php';
@@ -108,6 +112,15 @@ require_once __DIR__ . '/includes/header.php';
                         <div class="stat-label">Active Executives</div>
                     </div>
                 </div>
+                <div class="stat-card stat-blue">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"><?= $stats['messages'] ?></div>
+                        <div class="stat-label">Unread Messages</div>
+                    </div>
+                </div>
             </div>
 
             <div class="dashboard-grid">
@@ -162,6 +175,33 @@ require_once __DIR__ . '/includes/header.php';
                     </div>
                     <?php else: ?>
                         <div class="empty-state-sm">No blog submissions yet.</div>
+                    <?php endif; ?>
+                </div>
+
+                <!-- Recent Viewer Messages -->
+                <div class="dash-panel">
+                    <div class="panel-header">
+                        <h2 class="panel-title">Recent Viewer Messages</h2>
+                        <a href="<?= BASE_URL ?>/admin/modules/contact.php" class="panel-link">View all</a>
+                    </div>
+                    <?php if ($recentMessages): ?>
+                    <div class="mini-table-wrap">
+                        <table class="mini-table">
+                            <thead><tr><th>Name</th><th>Email</th><th>Status</th><th>When</th></tr></thead>
+                            <tbody>
+                            <?php foreach ($recentMessages as $m): ?>
+                                <tr>
+                                    <td><strong><?= h($m['full_name']) ?></strong></td>
+                                    <td><?= h($m['email']) ?></td>
+                                    <td><?= status_badge($m['status'] === 'unread' ? 'pending' : 'approved') ?></td>
+                                    <td class="muted"><?= time_ago($m['submitted_at']) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <?php else: ?>
+                        <div class="empty-state-sm">No viewer messages yet.</div>
                     <?php endif; ?>
                 </div>
 

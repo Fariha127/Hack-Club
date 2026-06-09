@@ -24,6 +24,17 @@ if ($action === 'update_field') {
     if (!$id) json_err('Invalid ID.');
     $db->prepare("DELETE FROM contact_info WHERE id = ?")->execute([$id]);
     json_ok(['message' => 'Deleted.']);
+} elseif ($action === 'mark_message_read') {
+    $id = (int) ($input['id'] ?? 0);
+    if (!$id) json_err('Invalid ID.');
+    $db->prepare("UPDATE contact_messages SET status='read', read_at=COALESCE(read_at, NOW()), read_by=COALESCE(read_by, ?) WHERE id = ?")
+       ->execute([$adminId, $id]);
+    json_ok(['message' => 'Message marked as read.']);
+} elseif ($action === 'delete_message') {
+    $id = (int) ($input['id'] ?? 0);
+    if (!$id) json_err('Invalid ID.');
+    $db->prepare("DELETE FROM contact_messages WHERE id = ?")->execute([$id]);
+    json_ok(['message' => 'Message deleted.']);
 } else {
     json_err('Unknown action.');
 }

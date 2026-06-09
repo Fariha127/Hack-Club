@@ -470,6 +470,108 @@ h1 {
     margin: 0;
 }
 
+.contact-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 22px;
+    align-items: stretch;
+}
+
+.contact-panel {
+    padding: 0;
+    overflow: hidden;
+}
+
+.contact-panel-head {
+    padding: 18px 22px;
+    background: color-mix(in srgb, var(--accent) 18%, var(--panel) 82%);
+    border-bottom: 1px solid var(--panel-border);
+    text-align: center;
+}
+
+.contact-panel-head h2 {
+    font-size: clamp(1.4rem, 2.4vw, 2rem);
+}
+
+.contact-form-inner {
+    padding: 24px;
+}
+
+.contact-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    padding: 18px;
+}
+
+.contact-action {
+    display: grid;
+    place-items: center;
+    gap: 12px;
+    min-height: 220px;
+    padding: 24px 18px;
+    text-align: center;
+    border-color: var(--panel-border);
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+}
+
+.contact-action:nth-child(2n) {
+    border-right-width: 0;
+}
+
+.contact-action:nth-last-child(-n + 2) {
+    border-bottom-width: 0;
+}
+
+.contact-action h3 {
+    max-width: 15ch;
+    font-size: clamp(1.2rem, 2.2vw, 1.65rem);
+    line-height: 1.18;
+}
+
+.contact-action-detail {
+    margin: -4px 0 0;
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+.contact-icon-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 96px;
+    height: 96px;
+    text-decoration: none;
+    border-radius: 18px;
+    border: 1px solid var(--panel-border);
+    background: var(--panel);
+    box-shadow: 0 10px 22px rgba(26, 74, 42, 0.12);
+    transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.contact-icon-link img {
+    width: 72px;
+    height: 72px;
+    border-radius: 14px;
+    object-fit: contain;
+}
+
+.contact-icon-link:hover,
+.contact-icon-link:focus-visible {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+    box-shadow: 0 14px 28px rgba(26, 74, 42, 0.18);
+}
+
+.contact-icon-link:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 4px;
+    border-radius: 14px;
+}
+
 .blog-gallery {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
