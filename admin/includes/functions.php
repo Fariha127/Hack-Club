@@ -82,6 +82,8 @@ function status_badge(string $status): string {
         'pending'   => 'badge-warning',
         'approved'  => 'badge-success',
         'rejected'  => 'badge-danger',
+        'unread'    => 'badge-warning',
+        'read'      => 'badge-success',
         'published' => 'badge-success',
         'upcoming'  => 'badge-info',
         'ongoing'   => 'badge-primary',

@@ -411,7 +411,7 @@ public_header('Portfolio', 'home');
                 </div>
                 <button class="dialog-close" id="membership-close" type="button" aria-label="Close membership form">&times;</button>
             </div>
-            <p class="membership-copy">Share your details and interests, and we will use the PHP backend to record your membership request.</p>
+            <p class="membership-copy">Share your details and interests, and our team will review your membership request.</p>
             <form class="form-wrap membership-form" id="membership-form" action="membership.php" method="post">
                 <div class="field">
                     <label for="member-name">Full Name</label>

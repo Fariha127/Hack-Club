@@ -133,12 +133,14 @@ require_once __DIR__ . '/includes/header.php';
                     <?php if ($recentApps): ?>
                     <div class="mini-table-wrap">
                         <table class="mini-table">
-                            <thead><tr><th>Name</th><th>Dept</th><th>Status</th><th>When</th></tr></thead>
+                            <thead><tr><th>Name</th><th>Dept</th><th>Area of Interest</th><th>Why Join</th><th>Status</th><th>When</th></tr></thead>
                             <tbody>
                             <?php foreach ($recentApps as $app): ?>
                                 <tr>
                                     <td><strong><?= h($app['full_name']) ?></strong></td>
                                     <td><?= h($app['department']) ?></td>
+                                    <td><?= h(truncate($app['area_of_interest'] ?? '', 35)) ?></td>
+                                    <td><?= h(truncate($app['why_join'] ?? '', 45)) ?></td>
                                     <td><?= status_badge($app['status']) ?></td>
                                     <td class="muted"><?= time_ago($app['submitted_at']) ?></td>
                                 </tr>
@@ -193,7 +195,7 @@ require_once __DIR__ . '/includes/header.php';
                                 <tr>
                                     <td><strong><?= h($m['full_name']) ?></strong></td>
                                     <td><?= h($m['email']) ?></td>
-                                    <td><?= status_badge($m['status'] === 'unread' ? 'pending' : 'approved') ?></td>
+                                    <td><?= status_badge($m['status']) ?></td>
                                     <td class="muted"><?= time_ago($m['submitted_at']) ?></td>
                                 </tr>
                             <?php endforeach; ?>

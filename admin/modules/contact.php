@@ -138,7 +138,7 @@ require_once __DIR__ . '/../includes/header.php';
                                 <td><strong><?= h($m['full_name']) ?></strong></td>
                                 <td><a href="mailto:<?= h($m['email']) ?>"><?= h($m['email']) ?></a></td>
                                 <td><?= h(truncate($m['message'], 70)) ?></td>
-                                <td><?= status_badge($m['status'] === 'unread' ? 'pending' : 'approved') ?></td>
+                                <td><?= status_badge($m['status']) ?></td>
                                 <td class="muted"><?= date('d M Y', strtotime($m['submitted_at'])) ?></td>
                                 <td>
                                     <div class="action-btns">

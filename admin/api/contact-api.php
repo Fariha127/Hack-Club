@@ -3,8 +3,7 @@ require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_admin();
-// Contact info is handled via direct form POST in contact.php module.
-// This endpoint handles individual field updates via AJAX if needed.
+
 $input  = json_decode(file_get_contents('php://input'), true) ?? [];
 $action = $input['action'] ?? '';
 verify_csrf();

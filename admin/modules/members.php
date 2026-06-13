@@ -56,7 +56,7 @@ require_once __DIR__ . '/../includes/header.php';
                     <table class="data-table" id="appTable">
                         <thead>
                             <tr>
-                                <th>#</th><th>Name</th><th>Email</th><th>Department</th><th>Year</th><th>Status</th><th>Submitted</th><th>Actions</th>
+                                <th>#</th><th>Name</th><th>Email</th><th>Department</th><th>Year</th><th>Area of Interest</th><th>Why Join</th><th>Status</th><th>Submitted</th><th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -67,6 +67,8 @@ require_once __DIR__ . '/../includes/header.php';
                                 <td><?= h($app['email']) ?></td>
                                 <td><?= h($app['department']) ?></td>
                                 <td><?= h($app['year']) ?></td>
+                                <td><?= h(truncate($app['area_of_interest'] ?? '', 45)) ?></td>
+                                <td><?= h(truncate($app['why_join'] ?? '', 55)) ?></td>
                                 <td><?= status_badge($app['status']) ?></td>
                                 <td class="muted"><?= date('d M Y', strtotime($app['submitted_at'])) ?></td>
                                 <td>
@@ -90,7 +92,7 @@ require_once __DIR__ . '/../includes/header.php';
                             </tr>
                         <?php endforeach; ?>
                         <?php if (empty($applications)): ?>
-                            <tr><td colspan="8"><div class="empty-state">No applications yet.</div></td></tr>
+                            <tr><td colspan="10"><div class="empty-state">No applications yet.</div></td></tr>
                         <?php endif; ?>
                         </tbody>
                     </table>
